@@ -19,6 +19,8 @@ from accounts import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls'))
+    path('', include('dashboard.urls')),
+    path('', include('accounts.urls')),
+    path('app', include('core.urls'))
 ]
 
