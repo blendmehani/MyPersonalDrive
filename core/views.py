@@ -4,4 +4,4 @@ from django.http import HttpResponse
 
 # Create your views here.
 def main(request):
-    return HttpResponse('core is here')
+    return render(request, 'core/index.html')
