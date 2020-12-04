@@ -25,7 +25,7 @@
         <nav class="navbar navbar-expand-lg navbar-light head__custom-nav bg-white" style="border-radius: 15px">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="{% static 'images/logo.png' %}" alt="website logo">
-                <span>My Personal Drive</span>
+                <span class="">My Personal Drive</span>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
                 <span><i class="fa fa-bars" style="font-size: 36px;color:#22a49c"></i></span>
@@ -54,14 +54,16 @@
 </div>
 
 {#home#}
-<section class="home my-5 py-5">
+<section class="home my-5 pb-5 pl-3">
     <div class="container py-5">
         <div class="row custom-section d-flex align-items-center">
             <div class="col-md-6 col-lg-4">
                 <h2>Protect Your</h2>
-                <h3>Files</h3>
-                <p>You have the opportunity to save, protect your files and all in one place.</p>
-                <a href="#service">Learn more</a>
+                <h3>Files!</h3>
+                <p>You have the opportunity to save, manage, protect, secure, share your files and all in one place.
+                    If I were you, I wouldn't miss this.</p>
+                    <p>If you want to see our services scroll down or click the button below <i class="far fa-smile" style="color:#f8c256"></i></p>
+                <a class="mt-2" href="#service">Learn more</a>
             </div>
             <div class="col-md-6 col-lg-8">
                 <img src="{% static 'images/landing_image.png' %}" alt="Team process banner">
@@ -78,78 +80,124 @@
             <div class="col-md-4">
                 <div class="m-3 p-3 shadow text-center service">
                     <div class="service-icon">
-                        <i class="fa fa-folder-plus"></i>
+                        <i class="fa fas fa-lock"></i>
                     </div>
                     <div class="service-body">
-                        <h3>Service</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem delectus deleniti earum
-                            harum odit provident similique sit. Amet beatae
-                            consectetur doloremque ex nulla odio omnis qui, rerum suscipit tempore!</p>
+                        <h3>Security</h3>
+                        <p>We offer maximum security in your files. If you are new here, first you need to register
+                            then you can login with the credentials and only you with your account can access
+                           the files that you upload, unless you want to share with someone else.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="m-3 p-3 shadow text-center service">
                     <div class="service-icon">
-                        <i class="fa fa-upload"></i>
+                        <i class="fas fa-shield-alt"></i>
                     </div>
                     <div class="service-body">
-                        <h3>Service</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem delectus deleniti earum
-                            harum odit provident similique sit. Amet beatae
-                            consectetur doloremque ex nulla odio omnis qui, rerum suscipit tempore!</p>
+                        <h3>Protection</h3>
+                        <p>As you guess, you don't have to worry for protection in a cloud service.
+                           Also for a deleted file you have 30 days to get it back if you want, you just
+                           have to contact us. After those days it will be deleted permanently.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="m-3 p-3 shadow text-center service">
                     <div class="service-icon">
-                        <i class="fa fa-trash-alt"></i>
+                        <i class="fas fa-user-cog"></i>
                     </div>
                     <div class="service-body">
-                        <h3>Service</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem delectus deleniti earum
-                            harum odit provident similique sit. Amet beatae
-                            consectetur doloremque ex nulla odio omnis qui, rerum suscipit tempore!</p>
+                        <h3>Account Settings</h3>
+                        <p>After you create your account, when logged in, you can change your account settings
+                        like password, avatar or even delete your account permanently, but we know, you don't
+                        like that either, do you?</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="m-3 p-3 shadow text-center service">
                     <div class="service-icon">
-                        <i class="fa fa-trash-alt"></i>
+                        <i class="fas fa-folder-open"></i>
                     </div>
                     <div class="service-body">
-                        <h3>Service</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem delectus deleniti earum
-                            harum odit provident similique sit. Amet beatae
-                            consectetur doloremque ex nulla odio omnis qui, rerum suscipit tempore!</p>
+                        <h3>Directories</h3>
+                        <p>You can create new directories or delete existing
+                         ones and put different files inside different directories. So you can manage the structure
+                        as you like. When you delete a directory you will delete the files inside.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="m-3 p-3 shadow text-center service">
                     <div class="service-icon">
-                        <i class="fa fa-trash-alt"></i>
+                        <i class="fas fa-file-upload"></i>
                     </div>
                     <div class="service-body">
-                        <h3>Service</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem delectus deleniti earum
-                            harum odit provident similique sit. Amet beatae
-                            consectetur doloremque ex nulla odio omnis qui, rerum suscipit tempore!</p>
+                        <h3>Upload Files</h3>
+                        <p>What use would our web application have if you didn't have the service to upload.
+                           You can upload files like images, documents, etc. Also you can open uploaded files inside
+                           our application if you would like that.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="m-3 p-3 shadow text-center service">
                     <div class="service-icon">
-                        <i class="fa fa-trash-alt"></i>
+                        <i class="fas fa-file-download"></i>
                     </div>
                     <div class="service-body">
-                        <h3>Service</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem delectus deleniti earum
-                            harum odit provident similique sit. Amet beatae
-                            consectetur doloremque ex nulla odio omnis qui, rerum suscipit tempore!</p>
+                        <h3>Download Files</h3>
+                        <p>Every file related with your account can be downloaded to your machine.
+                           Downloading may be for different reasons,
+                            for example you want the same file to be downloaded in many machines,
+                            so why use a USB when you have us?
+                         </p>
+                    </div>
+                </div>
+            </div>
+                        <div class="col-md-4">
+                <div class="m-3 p-3 shadow text-center service">
+                    <div class="service-icon">
+                        <i class="fas fa-share-square"></i>
+                    </div>
+                    <div class="service-body">
+                        <h3>Share Files</h3>
+                        <p>You can share your files with who ever you like you just need
+                            to know his email address and of course he should have an account here.
+                            When you delete your file that file will be deleted for everyone not just you.
+                         </p>
+                    </div>
+                </div>
+            </div>
+                        <div class="col-md-4">
+                <div class="m-3 p-3 shadow text-center service">
+                    <div class="service-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <div class="service-body">
+                        <h3>Delete Files</h3>
+                        <p>This service has been mentioned before and yes you will be
+                            able to delete every file you don't want anymore. After pressing
+                            the delete button you will be asked that if you are sure.
+                            If you want your file back contact us not longer than 30 days.
+                         </p>
+                    </div>
+                </div>
+            </div>
+                        <div class="col-md-4">
+                <div class="m-3 p-3 shadow text-center service">
+                    <div class="service-icon">
+                        <i class="fab fa-creative-commons-nc-eu"></i>
+                    </div>
+                    <div class="service-body">
+                        <h3>Free Use</h3>
+                        <p>This maybe is not even called a service but it's the best of all.
+                            All of the services provided by us are free. You will not have to pay
+                            when you open your account or when you add files or never. We believe you
+                            like that.
+                         </p>
                     </div>
                 </div>
             </div>
@@ -166,14 +214,18 @@
                 <img src="{% static 'images/about_us_1.svg' %}" alt="" id="changingImages" class="img-fluid" width="700"
                      height="500">
             </div>
-            <div class="col-lg-4 pt-4 pr-4">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At deserunt excepturi impedit iste minima.
-                    Culpa debitis doloremque facere fuga ipsum perferendis quia temporibus! Animi autem, ducimus fugiat
-                    officiis quidem sit?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum facere minus porro quos unde. Ab
-                    architecto commodi, facilis nihil, odio omnis porro qui quidem saepe sequi vel voluptates? Aliquam,
-                    doloribus.</p>
-                <p style="font-weight: 610">You can visit me in:</p>
+            <div class="col-lg-4 pt-4 text-justify ">
+                <p>It's actually about me and not about us because I worked solo
+                on this project. <br>This project is my diploma thesis and I have spent my time on this project
+                with to much enthusiasm.
+                <br>Not being clingy but I really hope you like this, and yes feel free to use the code of the project.</p>
+
+                <p>I am Blend Mehani and I have finished my bachelor studies on University of Prishtina <b>'Hasan Prishtina'</b>,
+                    Faculty of Electrical and Computer Engineering, <b>branch:</b>
+                    Data Models & Artificial Intelligence.
+                    <br><i>12/04/2020</i></p>
+
+                <p style="font-weight: 610">You can visit me on:</p>
                 <div class="social-icons mt-n3">
                     <a href="https://www.facebook.com/blendmehani" target="_blank">
                         <div class="d-inline-block pr-2"><i class="fab fa-facebook-square"></i></div>

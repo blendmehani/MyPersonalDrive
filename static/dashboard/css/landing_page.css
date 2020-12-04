@@ -1,9 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
 html{
   scroll-behavior: smooth;
 }
 body {
   font-family: 'Poppins', sans-serif;
+}
+nav span, nav ul{
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.3rem;
 }
 
 .head__custom-nav .navbar-brand img {
@@ -38,7 +43,7 @@ body {
     margin-top: 100px; }
     .custom-section .col-lg-4 h2 {
       font-weight: 700;
-      font-size: 55px;
+      font-size: 64px;
       color: #000;
       margin-bottom: 0;
       line-height: 1;
@@ -95,6 +100,7 @@ body {
 .section-heading{
   font-weight: 600;
   font-size: 3.5rem;
+font-family: 'Patrick Hand', cursive;
 }
 .service{
   border-radius: 3rem;
@@ -120,8 +126,13 @@ body {
     background: white;
     color: #4c97c4;
 }
-.social-icons a{
-  color: #323232;
+.social-icons a:nth-child(-n+2){
+  color: #035286;
+  font-size: 3rem;
+  text-decoration: none;
+}
+.social-icons a:nth-child(3){
+  color: #0a6d3a;
   font-size: 3rem;
   text-decoration: none;
 }
@@ -129,3 +140,7 @@ body {
   font-size: 3.1rem;
 }
 /*# sourceMappingURL=style.css.map */
+    @media only screen and (max-width: 1050px) {
+      .custom-section .col-lg-4 h2 {
+      white-space: normal; }
+    }
