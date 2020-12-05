@@ -26,7 +26,10 @@ SECRET_KEY = '^-wosgt*o#(_b&iz64=t5j67fl&pegexm2$jtg8hd)gb@g^5e&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'blendmehani.pythonanywhere.com'
+]
 
 
 # Application definition
