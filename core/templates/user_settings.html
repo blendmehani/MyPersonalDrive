@@ -1,0 +1,79 @@
+{% extends 'core/main.html' %}
+{% load static %}
+{% block content %}
+    <style>
+    .form-control:focus {
+    border-color: #353a40;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #353a40;
+}
+    .fake-link {
+    color: #5858db;
+    text-decoration: underline;
+    cursor: pointer;
+}
+    </style>
+
+    <div class="content">
+        <div class="row mt-n2">
+            <div class="col-2"></div>
+            <div class="col-8  py-3 text-center border-bottom border-top border-dark"
+                 style="border-width:2px!important; border-radius: 20px;">
+                {% if request.user.gender == 'M' %}
+                    <img class="img-fluid" style="border-radius: 50px" src="{% static 'images/male_avatar.png' %}"
+                         width="200" height="200" alt="">
+                {% else %}
+                    <img class="img-fluid" style="border-radius: 50px" src="{% static 'images/female_avatar.png' %}"
+                         width="200" height="200" alt="">
+                {% endif %}
+                <p class="pt-2"><i>Username:</i> <u style="font-weight: 500;">{{ request.user.username }}</u></p>
+
+                <form method="post">{% csrf_token %}
+                    <div class="form-group pt-2">
+                        <label class="font-italic float-left pt-1" for="inputFirstName">First Name:</label>
+                        <input class="form-control col-6 float-right" required type="text" name="first_name"
+                               id="inputFirstName"
+                               value="{{ update_user_form.initial.first_name }}"/>
+                    </div>
+                    <div class="form-group pt-5">
+                        <label class="font-italic float-left pt-1" for="inputLastName">Last Name:</label>
+                        <input class="form-control col-6 float-right" required type="text" name="last_name"
+                               id="inputLastName"
+                               value="{{ update_user_form.initial.last_name }}"/>
+                    </div>
+                    <div class="form-group pt-5">
+                        <label class="font-italic float-left pt-1" for="inputEmail">Email Address:</label>
+                        <input class="form-control col-6 float-right" required type="email" name="email"
+                               id="inputEmail"
+                               value="{{ update_user_form.initial.email }}"/>
+                    </div>
+                    <div class="form-group pt-5">
+                        <label class="font-italic float-left pt-1" for="inputPhoneNumber">Phone Number:</label>
+                        <input class="form-control col-6 float-right" required type="text" name="phone_number"
+                               id="inputPhoneNumber"
+                               value="{{ update_user_form.initial.phone_number }}"/>
+                    </div>
+
+                    <div class="pt-5 text-justify ">
+                        <a href="{% url 'password_change' user.username %}" class="fake-link" id="fake-link">Change Password?</a>
+                    </div>
+
+                    {% for field in update_user_form %}
+                        {% for error in field.errors %}
+                            <p class="py-2 mb-n2 alert-dark rounded">{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    {% if update_user_form.non_field_errors %}
+                        <p class="ml-n4 alert-dark rounded" style="margin-left: -10%!important;">
+                            {{ update_user_form.non_field_errors }}
+                        </p>
+                    {% endif %}
+                    {% if success_message %}
+                        <p class="py-2 mb-n2 alert-success">{{ success_message }}</p>
+                    {% endif %}
+                    <button id="buttonId" class="btn btn-success btn-primary mt-3" type="submit"><i class="fas fa-check"></i> Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -5,14 +5,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
     <title>Login</title>
     <link rel="icon" href="{% static 'images/logo.png' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
-
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.css' %}">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -31,7 +28,8 @@
     </style>
 </head>
 <body>
-<form class="form-signin">
+<form class="form-signin" method="post">
+    {% csrf_token %}
     <div class="text-center mb-4">
         <a href="/"><img class="mb-4" src="{% static 'images/logo.png' %}" alt="" width="92" height="92"></a>
         <h1 class="h3 mb-3 font-weight-normal">Welcome Back,</h1>
@@ -39,13 +37,14 @@
     </div>
 
     <div class="form-label-group">
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputEmail">Username or Email</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address"
+               required autofocus>
+        <label for="inputEmail">Email Address</label>
 
     </div>
 
     <div class="form-label-group">
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
         <label for="inputPassword">Password</label>
     </div>
 
@@ -53,9 +52,19 @@
         <label>
             <input type="checkbox" value="remember-me"> Remember me
         </label>
-        <a class="float-right" href="">Forgot password?</a>
+        <a class="float-right" href="{% url 'password_reset' %}">Forgot password?</a>
     </div>
-    <button id="buttonId" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    {% for field in login_form %}
+            {% for error in field.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+    {% endfor %}
+    {% if login_form.non_field_errors %}
+        <div class="ml-n4 " style="color: red; margin-left: -10%!important;">
+            {{ login_form.non_field_errors }}
+        </div>
+    {% endif %}
+    <button id="buttonId" class="btn btn-lg btn-primary btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
     <p class="mt-5 mb-3 text-muted text-center">No Account?<a href="../register"> Register here</a></p>
 </form>
 <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>

@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 
-# Create your views here.
 def dashboard(request):
-    return render(request, 'dashboard/landing_page.html')
+    user = request.user
+    if user.is_authenticated:
+        return redirect('main', request.user.username)
+    else:
+        return render(request, 'dashboard/landing_page.html')
 

@@ -15,11 +15,12 @@
 
 
 <div class="container register" id="one">
-    <div class="row">
+    <div class="row mt-n4">
 
-        <form class="form-signin">
+        <form class="form-signin" method="post">
+            {% csrf_token %}
             <div class="text-center mb-4">
-                <a href="/"><img class="mb-4" src="{% static 'images/logo.png' %}" alt="" width="92" height="92"></a>
+                <a href="/"><img class="" src="{% static 'images/logo.png' %}" alt="" width="92" height="92"></a>
                 <h1 class="h3 mb-3 font-weight-normal">Welcome,</h1>
                 <p>We are happy to have you here. Only one more step to secure your files.
                     <br>If you want to go to Home Page click the logo above.</p>
@@ -27,65 +28,91 @@
             <div class="row register-form">
                 <div class="col-md-6">
                     <div class="form-group form-label-group">
-                        <input type="text" id="inputFirstName" class="form-control" placeholder="First Name*" value=""
-                               autofocus/>
+                        <input required type="text" name="first_name" id="inputFirstName" class="form-control"
+                               placeholder="First Name*" autofocus/>
                         <label for="inputFirstName">First Name *</label>
                     </div>
                     <div class="form-group form-label-group">
-                        <input type="text" id="inputLastName" class="form-control" placeholder="Last Name *" value=""/>
+                        <input required type="text" name="last_name" id="inputLastName" class="form-control"
+                               placeholder="Last Name *"/>
                         <label for="inputLastName">Last Name *</label>
                     </div>
                     <div class="form-group form-label-group">
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Password *"
-                               value=""/>
+                        <input required type="email" name="" id="inputEmail" class="form-control"
+                               placeholder="Your Email *"/>
+                        <label for="inputEmail">Email Address *</label>
+                    </div>
+                    <div class="form-group form-label-group">
+                        <input required type="password" name="password1" id="inputPassword" class="form-control"
+                               placeholder="Password *"/>
                         <label for="inputPassword">Password *</label>
                     </div>
                     <div class="form-group form-label-group">
-                        <input type="password" id="inputConfirmPassword" class="form-control"
-                               placeholder="Confirm Password *" value=""/>
+                        <input required type="password" name="password2" id="inputConfirmPassword" class="form-control"
+                               placeholder="Confirm Password *"/>
                         <label for="inputConfirmPassword">Confirm Password *</label>
                     </div>
+
                     <div class="form-group">
                         <label class="radio inline">
-                            <input type="radio" name="gender" value="male" checked>
+                            <input type="radio" name="gender" value="M" checked>
                             <span> Male </span>
                         </label>
                         <label class="radio inline">
-                            <input type="radio" name="gender" value="female">
+                            <input type="radio" name="gender" value="F">
                             <span>Female </span>
                         </label>
-
                     </div>
-                    <p class="mt-4 mb-3 text-muted text-left">Already have an Account?<a href="../login"> Login here</a>
-                    </p>
+                    <div class="form-group form-label-group">
+                        <input required type="date" name="birthdate" id="inputBirthdate" class="form-control"
+                               placeholder="Birthdate *"/>
+                        <label for="inputBirthdate">Birthdate *</label></div>
+
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group form-label-group">
-                        <input type="email" id="inputEmail" class="form-control" placeholder="Your Email *" value=""/>
-                        <label for="inputEmail">Email Address</label>
+                        <input required type="text" name="country" id="inputCountry" class="form-control"
+                               placeholder="Country *"/>
+                        <label for="inputCountry">Country *</label>
                     </div>
                     <div class="form-group form-label-group">
-                        <input type="text" id="inputPhone" minlength="10" maxlength="10" name="txtEmpPhone"
-                               class="form-control" placeholder="Your Phone *" value=""/>
-                        <label for="inputPhone">Phone Number</label>
+                        <input required type="text" name="city" id="inputCity" class="form-control"
+                               placeholder="City *"/>
+                        <label for="inputCity">City, State *</label>
+                    </div>
+
+                    <div class="form-group form-label-group">
+                        <input required type="text" name="phone_number" id="inputPhone" minlength="6" maxlength="16"
+                               class="form-control" placeholder="Your Phone *"/>
+                        <label for="inputPhone">Phone Number *</label>
                     </div>
                     <div class="form-group">
-                        <select class="form-control">
+                        <select required class="form-control" name="secret_question">
                             <option class="hidden" selected disabled>Please select your Security Question</option>
-                            <option>What is your Birthdate?</option>
-                            <option>What is Your old Phone Number</option>
-                            <option>What is your Pet Name?</option>
+                            <option value="1">What is your Birthdate?</option>
+                            <option value="2">What is Your old Phone Number</option>
+                            <option value="3">What is your Pet Name?</option>
                         </select>
                     </div>
                     <div class="form-group form-label-group">
-                        <input type="text" id="inputSecretAnswer" class="form-control" placeholder="Enter Your Answer *"
-                               value=""/>
-                        <label for="inputSecretAnswer">Enter Your Answer</label>
+                        <input required type="text" name="secret_answer" id="inputSecretAnswer" class="form-control"
+                               placeholder="Enter Your Answer *"/>
+                        <label for="inputSecretAnswer">Enter Your Answer *</label>
                     </div>
-                    <div>
 
-                        <input type="submit" class="btnRegister btn btn-lg btn-primary btn-block" value="Register"/>
+                    <p class="text-muted text-left">Already have an Account?<a href="../login"> Login here</a></p>
+                    {% for field in register_form %}
+                        {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    {% if register_form.non_field_errors %}
+                        <p style="color: blue">{{ register_form.non_field_errors }}</p>
+                    {% endif %}
+
+                    <div>
+                        <button type="submit" class="btnRegister btn btn-lg btn-primary btn-block">Register</button>
                     </div>
                 </div>
             </div>

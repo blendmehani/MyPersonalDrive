@@ -2,7 +2,9 @@
     background: #353a40;
     border: none;
 }
-
+.errorlist{
+    list-style: none;
+}
 .btn:hover {
     background: #327759;
 }

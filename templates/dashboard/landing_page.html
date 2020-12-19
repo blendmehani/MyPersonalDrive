@@ -20,7 +20,7 @@
 <body>
 
 {#Navbar#}
-<div class="container fixed-top">
+<div class="container fixed-top sticky-top">
     <header class="head my-3">
         <nav class="navbar navbar-expand-lg navbar-light head__custom-nav bg-white" style="border-radius: 15px">
             <a class="navbar-brand d-flex align-items-center" href="#">
@@ -54,8 +54,8 @@
 </div>
 
 {#home#}
-<section class="home my-5 pb-5 pl-3">
-    <div class="container py-5">
+<section class="home mb-5 pb-5 pl-3">
+    <div class="container pb-5">
         <div class="row custom-section d-flex align-items-center">
             <div class="col-md-6 col-lg-4">
                 <h2>Protect Your</h2>
@@ -248,7 +248,7 @@
         <div class="container my-5 pt-5" id="contact-us">
             <h2 class="text-center section-heading pt-5">Contact Us</h2>
         </div>
-        <div class="row flex-row-reverse float-left">
+        <div class="row flex-row-reverse ">
             <div class="col-md-6">
                 <img class="img-fluid" src="{% static 'images/contact.svg' %}" alt="">
             </div>
@@ -268,14 +268,40 @@
                         <label for="inputMessage">Message <span style="color: red;">*</span></label>
                         <textarea name="" id="inputMessage" class="form-control" cols="30" rows="10"></textarea>
                     </div>
-                    <button id="buttonId" class="btn btn-lg btn-primary btn-block my-3" type="submit">Submit
-                    </button>
+                    <button id="buttonId" class="btn btn-lg btn-primary btn-block my-3" type="submit">Submit</button>
                 </form>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Footer -->
+<footer class="page-footer font-small unique-color-dark pt-5" style="background-color: #1c2431">
+
+  <!-- Footer Elements -->
+  <div class="container ">
+
+    <!-- Call to action -->
+    <ul class="list-unstyled list-inline text-center py-2">
+      <li class="list-inline-item">
+        <h5 class="mb-1 text-white">Register for free</h5>
+      </li>
+      <li class="list-inline-item">
+        <a href="{% url 'register' %}" class="btn btn-outline-white btn-rounded" id="footerBtn">Sign up!</a>
+      </li>
+    </ul>
+    <!-- Call to action -->
+
+  </div>
+  <!-- Footer Elements -->
+
+  <!-- Copyright -->
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3" style="background-color: #151b27; color: lightgray">© 2020 Copyright:
+    <a class="text-white" href="https://github.com/blendmehani"> Blend Mehani</a>
+  </div>
+  <!-- Copyright -->
+</footer>
 
 <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>

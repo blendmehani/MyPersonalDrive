@@ -16,11 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from accounts import urls
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('dashboard.urls')),
     path('', include('accounts.urls')),
-    path('app', include('core.urls'))
+    path('<username>/', include('core.urls'), name='main'),
+    path('password_change/done/',
+         auth_views.PasswordChangeDoneView.as_view(template_name='change_password_done.html'),
+         name='password_change_done'),
 ]
 

@@ -26,8 +26,12 @@ SECRET_KEY = '^-wosgt*o#(_b&iz64=t5j67fl&pegexm2$jtg8hd)gb@g^5e&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 ALLOWED_HOSTS = [
-    '127.0.0.1',
+    'localhost',
     'blendmehani.pythonanywhere.com'
 ]
 
@@ -56,6 +60,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
+LOGIN_REDIRECT_URL='/profiles/main'
 ROOT_URLCONF = 'mydrive.urls'
 
 TEMPLATES = [

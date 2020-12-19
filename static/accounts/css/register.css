@@ -28,7 +28,7 @@ input[type='radio']:after {
     left: -1px;
     position: relative;
     background-color: #d1d3d1;
-    content: '';
+    /*content: '';*/
     display: inline-block;
     visibility: visible;
     border: 2px solid white;
@@ -42,7 +42,7 @@ input[type='radio']:checked:after {
     left: -1px;
     position: relative;
     background-color: #353a40;
-    content: '';
+    /*content: '';*/
     display: inline-block;
     visibility: visible;
     border: 2px solid white;
@@ -68,7 +68,7 @@ body {
 
 .btnRegister {
     float: right;
-    margin-top: 10%;
+    margin-top: 3%;
     border: none;
     background: #353a40;
     color: #fff;
