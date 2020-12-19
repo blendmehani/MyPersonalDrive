@@ -48,7 +48,7 @@ def register_view(request):
                 username = first_name.lower() + last_name.lower() + str(randint(1, 100000))
             register.username = username
             register.first_name = register.first_name.capitalize()
-            register.last_name = register.first_name.capitalize()
+            register.last_name = register.last_name.capitalize()
             register.country = register.country.capitalize()
             register.city = register.city.capitalize()
             register.save()
