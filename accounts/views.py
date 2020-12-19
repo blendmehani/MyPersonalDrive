@@ -55,6 +55,16 @@ def register_view(request):
 
             return redirect('login')
         else:
+            form.initial = {
+                "first_name": request.POST['first_name'],
+                "last_name": request.POST['last_name'],
+                "email": request.POST['email'],
+                "gender": request.POST['gender'],
+                "birthdate": request.POST['birthdate'],
+                "country": request.POST['country'],
+                "city": request.POST['city'],
+                "phone_number": request.POST['phone_number']
+            }
             context['register_form'] = form
     else:
         form = RegisterForm()
