@@ -30,7 +30,7 @@ nav span, nav ul{
   transition: 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86); }
   .head__custom-nav #navbarNav .navbar-nav .nav-item .nav-link:hover {
     color: #22a49c;
-    border: 1px solid #22a49c;
+    border-bottom: 1px solid #22a49c;
   }
 
 .custom-section {
@@ -91,10 +91,6 @@ nav span, nav ul{
   outline: none!important;
 }
 .fa-bars:hover{
-  /*background-color: #22a49c!important;*/
-  /*color: white!important;*/
-  /*border: 1px solid #22a49c!important;*/
-  /*border-radius: 7px;*/
   font-size: 42px!important;
 }
 .section-heading{
@@ -157,4 +153,115 @@ footer{
   padding-right: 20px;
   color: white;
   background: none;
+}
+
+/*footer*/
+.footer{
+  background: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), url("/static/images/footer_bg.jpg");
+  background-size: cover;
+}
+.first{
+  margin-top: 40px;
+  margin-bottom: 50px;
+  color: rgb(206, 206, 206);
+}
+.first h4{
+  letter-spacing: 3px;
+  position: relative;
+  margin-bottom: 20px;
+  font-size: 1.6em;
+  color: #fff;
+  padding-bottom: 0.5em;
+}
+.first h4::after{
+  content: '';
+  background: #22a49c;
+  width: 20%;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.first p{
+  font-size: 14px;
+}
+.second{
+  margin-top: 40px;
+  margin-bottom: 50px;
+  color: rgb(206, 206, 206);
+  text-align: center;
+}
+.second h4{
+  font-size: 1.6em;
+  letter-spacing: 3px;
+  position: relative;
+  margin-bottom: 20px;
+  color: #fff;
+  padding-bottom: 0.5em;
+}
+.second h4::after{
+  content: '';
+  background: #22a49c;
+  width: 20%;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 40%;
+}
+.second p{
+  padding-bottom: 30px;
+}
+.third{
+  margin-top: 40px;
+  margin-bottom: 50px;
+  color: rgb(206, 206, 206);
+  text-align: right;
+}
+.third h4{
+  font-size: 1.6em;
+  letter-spacing: 3px;
+  position: relative;
+  margin-bottom: 20px;
+  color: #fff;
+  padding-bottom: 0.5em;
+}
+.third h4::after{
+  content: '';
+  background: #22a49c;
+  width: 20%;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 80%;
+}
+.third p {
+  padding-bottom: 15px;
+}
+.margin{
+  margin-left: 20px;
+}
+.line{
+  height: 2px;
+  background-color: rgb(206, 206, 206);
+  width: 100%;
+}
+.bottom-social{
+  margin-bottom: 50px;
+  margin-top: 50px;
+  color: rgb(206, 206, 206);
+  text-align: center!important;
+}
+@media screen and (max-width: 1000px){
+  .first{
+    text-align: center;
+  }
+  .first h4::after{
+    left: 40%;
+  }
+  .third{
+    text-align: center;
+  }
+  .third h4::after{
+    left: 40%;
+  }
 }

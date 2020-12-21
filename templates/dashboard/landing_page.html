@@ -54,7 +54,7 @@
 </div>
 
 {#home#}
-<section class="home mb-5 pb-5 pl-3">
+<section class="home mb-5 pb-5 pt-3 pl-3">
     <div class="container pb-5">
         <div class="row custom-section d-flex align-items-center">
             <div class="col-md-6 col-lg-4">
@@ -243,7 +243,7 @@
 </section>
 
 {#Contact Us#}
-<section class="contact-us">
+<section class="contact-us pb-5">
     <div class="container">
         <div class="container my-5 pt-5" id="contact-us">
             <h2 class="text-center section-heading pt-5">Contact Us</h2>
@@ -275,33 +275,63 @@
     </div>
 </section>
 
-<!-- Footer -->
-<footer class="page-footer font-small unique-color-dark pt-5" style="background-color: #1c2431">
 
-  <!-- Footer Elements -->
-  <div class="container ">
+{#</footer>#}
+<div class="py-5"></div>
+<div class="pt-5 mt-5">
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <div class="first">
+                    <h4>Services</h4>
+                    <p>Security</p>
+                    <p>Protection</p>
+                    <p>Account Settings</p>
+                    <p>Directories</p>
+                    <p>Upload Files</p>
+                    <p>Download Files</p>
+                    <p>Share Files</p>
+                    <p>Delete Files</p>
+                    <p>Free Use</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 px-5">
+                <div class="second">
+                    <h4>Application</h4>
+                    <p class="text-justify">This project has been developed for diploma thesis, but it can be used for a real industry. At this moment it's only for demonstration because it has been hosted for free on python, so for free you can use only <i>500 mb</i> of data.
+                        <br>But if you want to test this app feel free to do that. None of your data will be used for anything and the only one who can get to your data will be you.</p>
+                    <p></p>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 px-5">
+                <div class="third">
+                    <h4>Contact</h4>
+                    <p class="text-justify">If you want to contact me for anything related to app, please use <b>Contact Us</b>. <br>But if you want to ask
+                     me something else beside that feel free to contact me on <a href="https://facebook.com/blend.mehani" target="_blank">facebook</a>,
+                        <a href="https://linkedin.com/in/blendmehani" target="_blank">linkedin</a>.</p>
+                    <p><i><b>University of Prishtina</b></i>
+                        <br>
+                        <a href="https://goo.gl/maps/HdZzsscuC3CzbCrL8" target="_blank" style="color: lightgrey;"><i class="fas fa-map-marker-alt" style="color: red;"></i> <i>&nbsp;Prishtina, Agim Ramadani Street</i></a></p>
 
-    <!-- Call to action -->
-    <ul class="list-unstyled list-inline text-center py-2">
-      <li class="list-inline-item">
-        <h5 class="mb-1 text-white">Register for free</h5>
-      </li>
-      <li class="list-inline-item">
-        <a href="{% url 'register' %}" class="btn btn-outline-white btn-rounded" id="footerBtn">Sign up!</a>
-      </li>
-    </ul>
-    <!-- Call to action -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-  </div>
-  <!-- Footer Elements -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="line"></div>
+                <div class="bottom-social">
+                    <p>Created by <a href="https://www.github.com/blendmehani" target="_blank">Blend Mehani</a> | &copy 2020 All rights reserved.  </p>
+                </div>
 
-  <!-- Copyright -->
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3" style="background-color: #151b27; color: lightgray">© 2020 Copyright:
-    <a class="text-white" href="https://github.com/blendmehani"> Blend Mehani</a>
-  </div>
-  <!-- Copyright -->
-</footer>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
 <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
