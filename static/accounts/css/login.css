@@ -150,7 +150,20 @@ body {
         color: #777;
     }
 }
-
 a {
     color: #408ea9;
+}
+.show_hide{
+    display: block;
+    position: relative;
+    text-align: left;
+    top: 0;
+    left: 0;
+    font-size: 22px;
+}
+#togglePassword{
+    position: absolute;
+    bottom: 12px;
+    right:20px;
+    cursor: pointer;
 }

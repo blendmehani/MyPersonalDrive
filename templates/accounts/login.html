@@ -27,7 +27,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="Toggle1()">
 <form class="form-signin" method="post">
     {% csrf_token %}
     <div class="text-center mb-4">
@@ -37,7 +37,7 @@
     </div>
 
     <div class="form-label-group">
-        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address"
+        <input type="email" name="email" id="inputEmail" class="form-control active" placeholder="Email address"
                required autofocus>
         <label for="inputEmail">Email Address</label>
 
@@ -45,6 +45,7 @@
 
     <div class="form-label-group">
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="show_hide"><i onclick="Toggle1()" class="far fa-eye-slash" id="togglePassword"></i></div>
         <label for="inputPassword">Password</label>
     </div>
 
@@ -67,6 +68,7 @@
     <button id="buttonId" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     <p class="mt-5 mb-3 text-muted text-center">No Account?<a href="../register"> Register here</a></p>
 </form>
+<script src="{% static 'accounts/js/show_hide_password.js' %}"></script>
 <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 </body>
