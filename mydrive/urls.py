@@ -17,6 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from accounts import urls
 from django.contrib.auth import views as auth_views
+from django.templatetags.static import static
+# from django.utils.translation import ugettext_lazy as _
+# from material.admin.sites import site
+#
+# site.site_header = _('Your site header')
+# site.site_title = _('Your site title')
+# site.faveicon = static('path/to/favicon')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

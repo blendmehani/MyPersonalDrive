@@ -12,10 +12,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -29,12 +29,10 @@ DEBUG = True
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
 ALLOWED_HOSTS = [
     'localhost',
     'blendmehani.pythonanywhere.com'
 ]
-
 
 # Application definition
 
@@ -42,7 +40,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'dashboard.apps.DashboardConfig',
     'core.apps.CoreConfig',
-    'django.contrib.admin',
+    'material.admin',
+    'material.admin.default',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -61,8 +60,25 @@ MIDDLEWARE = [
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
-LOGIN_REDIRECT_URL='/profiles/main'
 ROOT_URLCONF = 'mydrive.urls'
+
+MATERIAL_ADMIN_SITE = {
+    'HEADER': _('My Personal Drive administration'),
+    'TITLE': _('My Personal Drive'),
+    'FAVICON': '',  # Admin site favicon (path to static should be specified)
+    'MAIN_BG_COLOR': '#353a40',
+    'MAIN_HOVER_COLOR': '#6c747e',
+    'PROFILE_PICTURE': 'material/admin/images/login-logo-night.jpg',
+    'PROFILE_BG': 'images/admin_profile_bg.png',
+    'LOGIN_LOGO': 'material/admin/images/login-logo-night.jpg',
+    'LOGOUT_BG': 'images/admin_bg.png',
+    'SHOW_THEMES': False,
+    'TRAY_REVERSE': False,
+    'NAVBAR_REVERSE': False,
+    'SHOW_COUNTS': True,
+    'APP_ICONS': {'accounts': 'account_box', 'sites': 'send', },
+    'MODEL_ICONS': {'site': 'contact_mail', }
+}
 
 TEMPLATES = [
     {
@@ -83,7 +99,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mydrive.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -93,7 +108,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -113,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -126,7 +139,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
