@@ -235,17 +235,14 @@ footer{
   left: 80%;
 }
 .third p {
-  padding-bottom: 15px;
-}
-.margin{
-  margin-left: 20px;
+  padding-bottom: 20px;
 }
 .line{
   height: 2px;
   background-color: rgb(206, 206, 206);
   width: 100%;
 }
-.bottom-social{
+.copyrights{
   margin-bottom: 50px;
   margin-top: 50px;
   color: rgb(206, 206, 206);
