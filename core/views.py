@@ -8,8 +8,10 @@ from django.contrib.auth import logout
 
 def main(request, username):
     user = request.user
+    context = {}
     if user.is_authenticated:
-        return render(request, 'main_logic.html')
+        context['user_url'] = request.build_absolute_uri()
+        return render(request, 'main_logic.html', context)
     else:
         return redirect('dashboard')
 

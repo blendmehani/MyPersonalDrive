@@ -51,15 +51,15 @@
         <ul class="navbar-nav mr-auto">
             {% if request.user.gender == 'M' %}
                 <li class="navbar-left px-1">
-                    <img class="img-fluid" id="navbar_picture" src="{% static 'images/male_avatar.png' %}" alt="photo"
+                    <a href="/"><img class="img-fluid" id="navbar_picture" src="{% static 'images/male_avatar.png' %}" alt="photo"
                          width="35" height="35" style="border: 2px solid darkgray;
-                   border-radius: 10px;">
+                   border-radius: 10px;"></a>
                 </li>
             {% else %}
                 <li class="navbar-left px-1">
-                    <img class="img-fluid" id="navbar_picture" src="{% static 'images/female_avatar.png' %}" alt="photo"
+                    <a href="/"><img class="img-fluid" id="navbar_picture" src="{% static 'images/female_avatar.png' %}" alt="photo"
                          width="35" height="35" style="border: 2px solid darkgray;
-                   border-radius: 10px;">
+                   border-radius: 10px;"></a>
                 </li>
             {% endif %}
             <li class="nav-item dropdown">
@@ -72,7 +72,7 @@
                         <span style="margin-left: 2px;">Logout</span></a>
                 </div>
             </li>
-            <li class="nav-item active ml-2">
+            <li class="nav-item ml-2" id="home">
                 <a class="nav-link" href="{% url 'main' user.username %}"> <span class="fa fa-home"></span> Home <span
                         class="sr-only">(current)</span></a>
             </li>
@@ -100,13 +100,25 @@
 
 <main role="main" class="container">
 
-
     {% block content %}
 
     {% endblock content %}
 
-</main><!-- /.container -->
+</main>
 </body>
+{% if user_url in request.build_absolute_uri %}
+    <script>
+        let home = document.getElementById('home')
+        home.className = 'nav-item active ml-2'
+    </script>
+{% else %}
+    <script>
+        let home = document.getElementById('home')
+        home.className = 'nav-item ml-2'
+    </script>
+{% endif %}
+<script>
+</script>
 <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
