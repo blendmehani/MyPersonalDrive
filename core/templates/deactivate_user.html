@@ -1,0 +1,31 @@
+{% extends 'core/main.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="content">
+        <div class="row mt-n2">
+            <div class="col-2"></div>
+            <div class="col-8  py-3 text-center border-bottom border-top border-dark"
+                 style="border-width:2px!important; border-radius: 20px;">
+                {% if request.user.gender == 'M' %}
+                    <img class="img-fluid" style="border-radius: 50px" src="{% static 'images/male_avatar.png' %}"
+                         width="200" height="200" alt="">
+                {% else %}
+                    <img class="img-fluid" style="border-radius: 50px" src="{% static 'images/female_avatar.png' %}"
+                         width="200" height="200" alt="">
+                {% endif %}
+                <p class="pt-2"><i>Username:</i> <u style="font-weight: 500;">{{ request.user.username }}</u></p>
+
+                <form method="post">{% csrf_token %}
+                    <p class="alert-danger py-3 rounded" style="font-size: 23px;">Are you sure that you want to deactivate your account?</p>
+                    <a class="btn btn-success btn-primary mt-3" href="{% url 'settings' user.username %}"><i
+                            class="fas fa-backspace"></i> Cancel</a>
+                    <button id="buttonId" class="btn btn-danger btn-primary mt-3" type="submit"><i
+                            class="fas fa-user-slash"></i> Yes, Deactivate</button>
+                    <p class="py-4 mt-4 alert-info rounded" style="font-size: 18px;">After deactivation, if you want to activate your account again you have to contact us from the form in the dashboard page.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

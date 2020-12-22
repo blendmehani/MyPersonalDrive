@@ -6,11 +6,6 @@
     border-color: #353a40;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #353a40;
 }
-    .fake-link {
-    color: #5858db;
-    text-decoration: underline;
-    cursor: pointer;
-}
     </style>
 
     <div class="content">
@@ -54,7 +49,7 @@
                     </div>
 
                     <div class="pt-5 text-justify ">
-                        <a href="{% url 'password_change' user.username %}" class="fake-link" id="fake-link">Change Password?</a>
+                        <a href="{% url 'password_change' user.username %}">Change Password?</a>
                     </div>
 
                     {% for field in update_user_form %}
@@ -71,6 +66,7 @@
                         <p class="py-2 mb-n2 alert-success">{{ success_message }}</p>
                     {% endif %}
                     <button id="buttonId" class="btn btn-success btn-primary mt-3" type="submit"><i class="fas fa-check"></i> Save Changes</button>
+                    <a class="btn btn-danger btn-primary mt-3" href="{% url 'delete_user' user.username %}"><i class="fas fa-minus"></i> Delete Account</a>
                 </form>
             </div>
         </div>

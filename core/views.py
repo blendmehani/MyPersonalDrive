@@ -3,12 +3,12 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import UpdateUserForm
 from accounts.models import User
+from django.contrib.auth import logout
 
 
 def main(request, username):
     user = request.user
     if user.is_authenticated:
-        u = User.objects.get(username=username)
         return render(request, 'main_logic.html')
     else:
         return redirect('dashboard')
@@ -43,3 +43,22 @@ def user_settings(request, username):
         )
     context['update_user_form'] = form
     return render(request, 'user_settings.html', context)
+
+
+def delete_user(request, username):
+    user = User.objects.get(username=username)
+    if request.POST:
+        user.delete()
+        return redirect('dashboard')
+    context = {}
+    return render(request, 'delete_user.html', context)
+
+
+def deactivate_user(request, username):
+    user = User.objects.get(username=username)
+    if request.POST:
+        user.is_active = 0
+        user.save()
+        return redirect('dashboard')
+    context = {}
+    return render(request, 'deactivate_user.html', context)
