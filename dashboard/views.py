@@ -12,7 +12,8 @@ def dashboard(request):
             form = ContactUsForm(request.POST)
             if form.is_valid():
                 form.save()
-                context['success_message'] = 'You sent it successfully'
+                context['success_message'] = 'You contacted us successfully, ' \
+                                             'we will contact you via the email address you provided.'
             else:
                 context['contact_us_form'] = form
         else:
