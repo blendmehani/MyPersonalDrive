@@ -253,21 +253,35 @@
                 <img class="img-fluid" src="{% static 'images/contact.svg' %}" alt="">
             </div>
             <div class="col-md-6">
-                <form action="" class="form-contact">
+                <form action="#contact-us" method="POST" class="form-contact">
+                    {% csrf_token %}
                     <div class="form-label-group">
-                        <label for="inputName">Full Name <span style="color: red;">*</span></label>
-                        <input type="text" id="inputName" class="form-control" placeholder="First and Last Name"
+                        <label for="inputFullName">Full Name <span style="color: red;">*</span></label>
+                        <input type="text" name="full_name" id="inputFullName" class="form-control" placeholder="First and Last Name"
                                required>
                     </div>
                     <div class="form-label-group my-3">
                         <label for="inputEmail">Email <span style="color: red;">*</span></label>
-                        <input type="text" id="inputEmail" class="form-control" placeholder="example@example.com"
+                        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="example@example.com"
                                required>
                     </div>
                     <div class="form-label-group">
                         <label for="inputMessage">Message <span style="color: red;">*</span></label>
-                        <textarea name="" id="inputMessage" class="form-control" cols="30" rows="10"></textarea>
+                        <textarea required name="message" id="inputMessage" class="form-control" cols="30" rows="10"></textarea>
                     </div>
+
+                    {% for field in contact_us_form %}
+                        {% for error in field.errors %}
+                            <p class="alert-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    {% if contact_us_form.non_field_errors %}
+                        <p class="alert-danger">{{ register_form.non_field_errors }}</p>
+                    {% endif %}
+                    {% if success_message %}
+                        <p class="alert-success">{{ success_message }}</p>
+                    {% endif %}
+
                     <button id="buttonId" class="btn btn-lg btn-primary btn-block my-3" type="submit">Submit <i class="fas fa-file-contract"></i></button>
                 </form>
             </div>

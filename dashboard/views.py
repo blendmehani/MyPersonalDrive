@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from .forms import ContactUsForm
 
 
 def dashboard(request):
@@ -7,5 +7,16 @@ def dashboard(request):
     if user.is_authenticated:
         return redirect('main', request.user.username)
     else:
-        return render(request, 'dashboard/landing_page.html')
+        context = {}
+        if request.POST:
+            form = ContactUsForm(request.POST)
+            if form.is_valid():
+                form.save()
+                context['success_message'] = 'You sent it successfully'
+            else:
+                context['contact_us_form'] = form
+        else:
+            form = ContactUsForm()
+            context['contact_us_form'] = form
+        return render(request, 'dashboard/landing_page.html', context)
 

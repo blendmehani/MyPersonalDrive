@@ -26,8 +26,8 @@ SECRET_KEY = '^-wosgt*o#(_b&iz64=t5j67fl&pegexm2$jtg8hd)gb@g^5e&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# if DEBUG:
+#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -65,7 +65,7 @@ ROOT_URLCONF = 'mydrive.urls'
 MATERIAL_ADMIN_SITE = {
     'HEADER': _('My Personal Drive administration'),
     'TITLE': _('My Personal Drive'),
-    'FAVICON': '',  # Admin site favicon (path to static should be specified)
+    'FAVICON': 'images/logo.png',  # Admin site favicon (path to static should be specified)
     'MAIN_BG_COLOR': '#353a40',
     'MAIN_HOVER_COLOR': '#6c747e',
     'PROFILE_PICTURE': 'material/admin/images/login-logo-night.jpg',
@@ -149,3 +149,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'contact.mypersonaldrive@gmail.com'
+EMAIL_HOST_PASSWORD = '*****'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

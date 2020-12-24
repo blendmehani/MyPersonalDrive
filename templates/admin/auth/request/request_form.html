@@ -1,0 +1,14 @@
+{% extends 'admin/change_form.html' %}
+{% block object-tools %}
+
+        <form method="POST">
+        {% csrf_token %}
+            <label style="margin-left:1px;font-weight: 600; color: black;" for="textarea">Message to Client:</label><br>
+        <textarea required style="margin-top: 7px;" name="text_area" id="textarea" cols="65" rows="10"></textarea>
+            <br>
+        <input style="margin-top:7px;" type="submit" value="Send Email" name="send_email">
+    </form>
+    <br>
+    {{ block.super }}
+
+{% endblock object-tools %}
