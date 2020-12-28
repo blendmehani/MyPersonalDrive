@@ -6,11 +6,10 @@ html{
 body {
   font-family: 'Poppins', sans-serif;
 }
-nav span, nav ul{
+nav span{
   font-family: 'Patrick Hand', cursive;
   font-size: 1.3rem;
 }
-
 .head__custom-nav .navbar-brand img {
    height: 45px; }
 .head__custom-nav .navbar-brand span {
@@ -23,7 +22,7 @@ nav span, nav ul{
     width: 45px; }
 .head__custom-nav #navbarNav .navbar-nav .nav-item .nav-link {
   color: #000;
-  font-weight: 400;
+  font-weight: 410;
   padding: 8px 15px;
   white-space: nowrap;
   transition: 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86); }
@@ -31,7 +30,6 @@ nav span, nav ul{
     color: #22a49c;
     border-bottom: 1px solid #22a49c;
   }
-
 .custom-section {
   width: inherit;
   padding: 40px 0; }
@@ -41,22 +39,28 @@ nav span, nav ul{
   .custom-section .col-lg-4 {
     margin-top: 100px; }
     .custom-section .col-lg-4 h2 {
+      animation: drop 1.5s ease;
       font-weight: 700;
       font-size: 64px;
       color: #000;
+      letter-spacing: 2px;
       margin-bottom: 0;
       line-height: 1;
       white-space: nowrap; }
     .custom-section .col-lg-4 h3 {
+      letter-spacing: 2px;
+      animation: raise 1.5s ease;
       font-weight: 300;
       font-size: 64px;
       color: #000;
       line-height: 1; }
     .custom-section .col-lg-4 p {
       color: #000;
+      animation: raise 1.5s ease;
       font-size: 14px;
       margin-top: 30px; }
     .custom-section .col-lg-4 a {
+      animation: raise 1.5s ease;
       display: inline-block;
       padding: 8px 22px;
       color: #fff;
@@ -70,6 +74,7 @@ nav span, nav ul{
         background-color: #fff;
         border: 1px solid #22a49c; }
   .custom-section .col-lg-8 img {
+    animation: drop 1.5s ease;
     width: 100%;
     position: absolute;
     top: -14rem;
@@ -94,8 +99,11 @@ nav span, nav ul{
 }
 .section-heading{
   font-weight: 600;
-  font-size: 3.5rem;
-font-family: 'Patrick Hand', cursive;
+  font-size: 3rem;
+  letter-spacing: 2px;
+  background: -webkit-linear-gradient( rgba(255, 255, 255, 0.7),rgba(0, 0, 0, 1));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .service{
   border-radius: 3rem;
@@ -156,7 +164,7 @@ footer{
 
 /*footer*/
 .footer{
-  background: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), url("/static/images/footer_bg.jpg");
+  background: linear-gradient(rgba(76, 151, 196, 0.7),rgba(0, 0, 0, 0.7)), url("/static/images/footer_bg.jpg");
   background-size: cover;
 }
 .first{
@@ -260,4 +268,35 @@ footer{
   .third h4::after{
     left: 40%;
   }
+}
+.head__custom-nav{
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.section-line{
+  height: 2px;
+  width: 40%;
+  margin-left: 30%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 1))
+}
+@keyframes drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@keyframes raise {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
 }

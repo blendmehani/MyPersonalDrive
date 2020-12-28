@@ -12,8 +12,8 @@ def main(request, username):
     if user.is_authenticated:
         context['user_url'] = request.build_absolute_uri()
         return render(request, 'main_logic.html', context)
-    else:
-        return redirect('dashboard')
+
+    return redirect('dashboard')
 
 
 def user_settings(request, username):

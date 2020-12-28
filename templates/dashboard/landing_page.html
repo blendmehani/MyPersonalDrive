@@ -22,15 +22,15 @@
 {#Navbar#}
 <div class="container fixed-top sticky-top">
     <header class="head my-3">
-        <nav class="navbar navbar-expand-lg navbar-light head__custom-nav bg-white" style="border-radius: 15px">
-            <a class="navbar-brand d-flex align-items-center" href="#">
+        <nav class="navbar navbar-expand-lg navbar-light head__custom-nav bg-white">
+            <a class="navbar-brand d-flex align-items-center" href="/">
                 <img src="{% static 'images/logo.png' %}" alt="website logo">
                 <span class="">My Personal Drive</span>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
                 <span><i class="fa fa-bars" style="font-size: 36px;color:#22a49c"></i></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end " id="navbarNav">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="#"> Home</a>
@@ -58,11 +58,11 @@
     <div class="container pb-5">
         <div class="row custom-section d-flex align-items-center">
             <div class="col-md-6 col-lg-4">
-                <h2>Protect Your</h2>
-                <h3>Files!</h3>
+                <h2 class="h2-title">Protect Your</h2>
+                <h3 class="h3-title">Files!</h3>
                 <p>You have the opportunity to save, manage, protect, secure, share your files and all in one place.
                     If I were you, I wouldn't miss this.</p>
-                    <p>If you want to see our services scroll down or click the button below <i class="far fa-smile" style="color:#f8c256"></i></p>
+                    <p>If you want to see our services scroll down or click the button below <i class="far fa-smile" style="color:#f8c256"></i>.</p>
                 <a class="mt-2" href="#service">Learn more &nbsp;<i class="fab fa-leanpub"></i></a>
             </div>
             <div class="col-md-6 col-lg-8">
@@ -76,6 +76,7 @@
 <section class="services pt-5 my-5">
     <div class="container py-5" id="service">
         <h2 class="text-center section-heading pt-5">Services</h2>
+        <div class="section-line"></div>
         <div class="row py-5">
             <div class="col-md-4">
                 <div class="m-3 p-3 shadow text-center service">
@@ -208,8 +209,9 @@
 {#About Us#}
 <section class="about-us pb-5 my-n5 pt-5">
     <div class="container my-5 py-5" id="about-us">
-        <h2 class="text-center section-heading py-5">About Us</h2>
-        <div class="row justify-content-start">
+        <h2 class="text-center section-heading pt-5">About Us</h2>
+                <div class="section-line "></div>
+        <div class="row justify-content-start pt-5">
             <div class="col-lg-8">
                 <img src="{% static 'images/about_us_1.svg' %}" alt="" id="changingImages" class="img-fluid" width="700"
                      height="500">
@@ -247,6 +249,7 @@
     <div class="container">
         <div class="container my-5 pt-5" id="contact-us">
             <h2 class="text-center section-heading pt-5">Contact Us</h2>
+                    <div class="section-line"></div>
         </div>
         <div class="row flex-row-reverse ">
             <div class="col-md-6">
