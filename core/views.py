@@ -64,3 +64,8 @@ def deactivate_user(request, username):
         return redirect('dashboard')
     context = {}
     return render(request, 'deactivate_user.html', context)
+
+
+def create_directory(request, username):
+    context = {}
+    return render(request, 'actions/create_directory.html', context)

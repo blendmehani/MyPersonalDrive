@@ -1,18 +1,10 @@
 {% extends 'core/main.html' %}
 {% load static %}
 {% block content %}
-    <style>
-    .form-control:focus {
-    border-color: #353a40;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #353a40;
-}
-    </style>
-
+    <link rel="stylesheet" href="{% static 'core/css/user_settings/user_settings.css' %}">
     <div class="content">
         <div class="row mt-n2">
-            <div class="col-2"></div>
-            <div class="col-8  py-3 text-center border-bottom border-top border-dark"
-                 style="border-width:2px!important; border-radius: 20px;">
+            <div class="col-md-6 text-center">
                 {% if request.user.gender == 'M' %}
                     <img class="img-fluid" style="border-radius: 50px" src="{% static 'images/male_avatar.png' %}"
                          width="200" height="200" alt="">
@@ -20,56 +12,65 @@
                     <img class="img-fluid" style="border-radius: 50px" src="{% static 'images/female_avatar.png' %}"
                          width="200" height="200" alt="">
                 {% endif %}
-                <p class="pt-2"><i>Username:</i> <u style="font-weight: 500;">{{ request.user.username }}</u></p>
+</div>
+            <div class="col-md-6 text-center my-auto" style="height: 100%;">
+                 <p class="pt-3"><span id="username">Username:</span> <br><span id="output_username">{{ request.user.username }}</span></p>
+                <img id="bg_img" src="{% static 'images/bubble.svg' %}" alt="">
+</div>
+            </div>
 
+                <p class=" mt-4 border"></p>
                 <form method="post">{% csrf_token %}
-                    <div class="form-group pt-2">
-                        <label class="font-italic float-left pt-1" for="inputFirstName">First Name:</label>
-                        <input class="form-control col-6 float-right" required type="text" name="first_name"
-                               id="inputFirstName"
-                               value="{{ update_user_form.initial.first_name }}"/>
-                    </div>
-                    <div class="form-group pt-5">
-                        <label class="font-italic float-left pt-1" for="inputLastName">Last Name:</label>
-                        <input class="form-control col-6 float-right" required type="text" name="last_name"
-                               id="inputLastName"
-                               value="{{ update_user_form.initial.last_name }}"/>
-                    </div>
-                    <div class="form-group pt-5">
-                        <label class="font-italic float-left pt-1" for="inputEmail">Email Address:</label>
-                        <input class="form-control col-6 float-right" required type="email" name="email"
-                               id="inputEmail"
-                               value="{{ update_user_form.initial.email }}"/>
-                    </div>
-                    <div class="form-group pt-5">
-                        <label class="font-italic float-left pt-1" for="inputPhoneNumber">Phone Number:</label>
-                        <input class="form-control col-6 float-right" required type="text" name="phone_number"
-                               id="inputPhoneNumber"
-                               value="{{ update_user_form.initial.phone_number }}"/>
-                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group pt-2">
+                                <label class="font-weight-bold d-flex" for="inputFirstName">First Name:</label>
+                                <input class="form-control col-12" required type="text" name="first_name"
+                                       id="inputFirstName"
+                                       value="{{ update_user_form.initial.first_name }}"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold d-flex " for="inputLastName">Last Name:</label>
+                                <input class="form-control col-12" required type="text" name="last_name"
+                                       id="inputLastName"
+                                       value="{{ update_user_form.initial.last_name }}"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold d-flex" for="inputEmail">Email Address:</label>
+                                <input class="form-control col-12" required type="email" name="email"
+                                       id="inputEmail"
+                                       value="{{ update_user_form.initial.email }}"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold d-flex" for="inputPhoneNumber">Phone Number:</label>
+                                <input class="form-control col-12" required type="text" name="phone_number"
+                                       id="inputPhoneNumber"
+                                       value="{{ update_user_form.initial.phone_number }}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-auto">
+                            {% for field in update_user_form %}
+                                {% for error in field.errors %}
+                                    <p class="text-center py-3 alert-danger rounded">{{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                            {% if success_message %}
+                                <p class=" py-3  text-center alert-success rounded">{{ success_message }}</p>
+                            {% endif %}
+                            <button id="buttonId" class=" btn btn-outline-success mt-3 col-12 shadow-lg" type="submit">
+                                <i class="fas fa-check"></i> Save Changes
+                            </button>
+                            <a class="btn btn-outline-info mt-5 col-12 shadow-lg"
+                               href="{% url 'password_change' user.username %}"><i class="fas fa-key"></i> Change
+                                Password</a>
+                            <a class="btn btn-outline-danger mt-5 col-12 shadow-lg"
+                               href="{% url 'delete_user' user.username %}"><i class="fas fa-minus"></i> Delete Account</a>
+                        <p class=" mt-4 border"></p>
+                        </div>
 
-                    <div class="pt-5 text-justify ">
-                        <a href="{% url 'password_change' user.username %}">Change Password?</a>
                     </div>
-
-                    {% for field in update_user_form %}
-                        {% for error in field.errors %}
-                            <p class="py-2 mb-n2 alert-dark rounded">{{ error }}</p>
-                        {% endfor %}
-                    {% endfor %}
-                    {% if update_user_form.non_field_errors %}
-                        <p class="ml-n4 alert-dark rounded" style="margin-left: -10%!important;">
-                            {{ update_user_form.non_field_errors }}
-                        </p>
-                    {% endif %}
-                    {% if success_message %}
-                        <p class="py-2 mb-n2 alert-success">{{ success_message }}</p>
-                    {% endif %}
-                    <button id="buttonId" class="btn btn-success btn-primary mt-3" type="submit"><i class="fas fa-check"></i> Save Changes</button>
-                    <a class="btn btn-danger btn-primary mt-3" href="{% url 'delete_user' user.username %}"><i class="fas fa-minus"></i> Delete Account</a>
                 </form>
             </div>
-        </div>
-    </div>
+
 
 {% endblock content %}
