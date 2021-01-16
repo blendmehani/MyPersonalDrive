@@ -36,7 +36,6 @@ def register_view(request):
 
     if request.POST:
         form = RegisterForm(request.POST)
-
         if form.is_valid():
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
@@ -52,8 +51,8 @@ def register_view(request):
             register.country = register.country.capitalize()
             register.city = register.city.capitalize()
             register.save()
-
-            return redirect('login')
+            context['first_name'] = register.first_name
+            return render(request, 'registration/registered_successfully.html', context)
         else:
             form.initial = {
                 "first_name": request.POST['first_name'],

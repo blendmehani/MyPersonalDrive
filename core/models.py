@@ -13,6 +13,9 @@ class Directory(models.Model):
     date_updated = models.DateTimeField(verbose_name='Date Updated', auto_now=True)
     is_deleted = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name_plural = 'Directories'
+
     def __str__(self):
         return self.dir_name
 
