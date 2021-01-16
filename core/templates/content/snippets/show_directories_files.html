@@ -1,0 +1,99 @@
+{% load template_extra %}
+{% if files %}
+    <form id="change_name2" action="{% url 'change_name' user.username %}" method="post">
+        {% csrf_token %}
+        <div class="row mt-n5" id="file_list">
+            {% for file in files %}
+
+                {% if file.type == 'directory' %}
+
+                    <div class="col-md-3">
+                        <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
+                            <div class="ml-4" data-toggle="tooltip" data-placement="top" title="Directory">
+                                {% if file.id|to_str in all_directories|to_str or file.id|to_str in all_files|to_str %}
+                                    <a href="{% url 'nested' user.username file.dir_name %}"><img
+                                            class="img-fluid picture"
+                                            src="../../../../static/images/directory_full.png"
+                                            width="120"
+                                            alt="Directory"></a>
+                                {% else %}
+                                    <a href="{% url 'nested' user.username file.dir_name %}"><img
+                                            class="img-fluid picture"
+                                            src="../../../../static/images/directory.png"
+                                            width="120"
+                                            alt="Directory"></a>
+                                {% endif %}
+                            </div>
+                            <div class="service-body">
+                                <input type="checkbox" value="{{ file.id }}" class="checkbox">
+
+                                <input required type="text" name="d{{ file.id }}" value="{{ file.dir_name }}"
+                                       maxlength="18" autocomplete="off"
+                                       class="text-center name_input mt-1 mb-2">
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% elif file.type == 'image' %}
+
+                    <div class="col-md-3">
+                        <div class="m-3 px-3 pt-0 rounded text-center service directory-bg">
+                            <div class="container ml-n2 " style="margin-top: 20px!important;">
+                                <a class="nested_image_b" style="display: block;" href="{{ file.file.url }}"><img
+                                        class="img-fluid rounded"
+                                        src="../../../../static/images/image.png"
+                                        width="120" alt="File" style="height: 130px;"></a>
+
+                                <a class="nested_image_a" href="{{ file.file.url }}" style="display: none;"><img
+                                        class="rounded" src="{{ file.file.url }}" id="nested_image"
+                                        alt="Image"></a>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" value="{{ file.id }}" class="checkbox">
+
+                                <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
+                                       maxlength="18" autocomplete="off"
+                                       class="text-center name_input  mb-2">
+                            </div>
+                        </div>
+                    </div>
+
+                {% else %}
+
+                    <div class="col-md-3">
+                        <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
+                            <div class="ml-n3 mt-1">
+                                <a href="{{ file.file.url }}"><img class="img-fluid picture"
+                                                                   src="../../../../static/images/pdf.png"
+                                                                   width="120" alt="Pdf"
+                                                                   style="width: 100px; height: 110px"></a>
+                            </div>
+                            <div class="service-body">
+                                <input type="checkbox" value="{{ file.id }}" class="checkbox">
+
+                                <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
+                                       maxlength="18" autocomplete="off"
+                                       class="text-center name_input mb-2" style="margin-top: 8px;">
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+    </form>
+{% else %}
+    <div class="pt-3 text-center border col-md-6 mx-auto">
+        <h2 class="pb-1 border-bottom">No results</h2>
+        <p class="pt-2">{{ empty }}</p>
+    </div>
+{% endif %}
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

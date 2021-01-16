@@ -1,0 +1,24 @@
+<li class="nav-item ml-2" id="">
+    <a class="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onclick="show_create_directory()"
+       id="create_directory_link"> <span class="fas fa-folder-plus"></span> Create Directory</a>
+</li>
+<li class="nav-item ml-2" id="">
+    <a class="nav-link" id="upload_file_link" onclick="show_upload_file()" data-toggle="collapse"
+       data-target=".navbar-collapse.show"> <span class="fa fa-cloud-upload-alt"></span> Upload
+        File</a>
+</li>
+<li class="nav-item dropdown mx-2">
+    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+       aria-expanded="false"> <i class="fas fa-directions"></i> Action</a>
+    <div class="dropdown-menu" aria-labelledby="dropdown01">
+        <a class="dropdown-item" href="#"><i
+                class="fas fa-cloud-download-alt"></i><span> Download File</span></a>
+        <a class="dropdown-item" href="#"><i
+                class="fas fa-share-square"></i><span> Share File</span></a>
+        <a class="dropdown-item" href="#"><i class="fas fa-trash-alt" style="margin-left: 1px;"></i><span
+                style="margin-left: 3px;"> Delete</span></a>
+        <a class="dropdown-item" onclick="show_hide_thumbnail()" id="show_thumbnail"
+           style="cursor: pointer; display: block;"><i id="thumbnail_logo" class="far fa-eye"></i>
+            <span id="thumbnail_text"> Show Thumbnails</span></a>
+    </div>
+</li>

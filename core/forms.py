@@ -1,5 +1,6 @@
 from django import forms
 from accounts.models import User
+from .models import File
 
 
 class UpdateUserForm(forms.ModelForm):
@@ -15,3 +16,9 @@ class UpdateUserForm(forms.ModelForm):
             return email
         email = str(email)
         raise forms.ValidationError(f"Email Address {email} is already in use. ")
+
+
+class UploadFile(forms.ModelForm):
+    class Meta:
+        model = File
+        fields = ('file',)

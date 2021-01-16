@@ -1,0 +1,27 @@
+<div class="content pb-2">
+    <div class="row">
+        <div class="col-md-6 mx-auto  py-3">
+            <form id="upload_file" action="{% url 'upload_file' user.username %}" enctype="multipart/form-data"
+                  data-url="{% url 'upload_file' user.username %}"
+                  method="POST">{% csrf_token %}
+                <div class="form-group files shadow">
+                    <input type="file" required class="form-control" formenctype="multipart/form-data" name="file"
+                           id="file_input">
+                </div>
+                <input type="text" id="url" name="url" value="" hidden>
+                <button class="btn btn-outline-success shadow-lg mt-3 col-md-12"
+                        type="submit"><i
+                        class="fas fa-cloud-upload-alt"></i> Upload
+                </button>
+                <a class="btn btn-outline-info mt-3 shadow-lg col-md-12" onclick="hide_upload_file()"><i
+                        class="fas fa-backspace"></i> Cancel</a>
+                <p class=" mt-4 border"></p>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('url').value = document.location.href
+</script>

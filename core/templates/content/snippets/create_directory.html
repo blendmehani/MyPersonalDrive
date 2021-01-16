@@ -1,0 +1,24 @@
+<div class="content">
+    <div class="row ">
+        <div class="col-md-6 mx-auto  py-3 ">
+            <form id="create_directory" data-url="{% url 'create_directory' user.username %}"
+                  method="post">{% csrf_token %}
+                <div class="form-group pt-2">
+                    <label class="font-weight-bold" for="inputDirName">Enter Directory Name:</label>
+                    <input class="form-control" required type="text" name="dir_name" maxlength="18"
+                           placeholder="You can use letters, numbers, space, -, _" autofocus id="inputDirName"/>
+                    <i style="font-size:13px; font-weight: 300;">Maximum length is 18 characters and directory name
+                        must be unique.</i>
+                </div>
+                <button id="create_directory_button" class="btn btn-outline-success shadow-lg mt-3 col-md-12"
+                        type="submit"><i
+                        class="fas fa-folder-plus"></i> Create Directory
+                </button>
+                <a class="btn btn-outline-info mt-3 shadow-lg col-md-12" onclick="hide_create_directory()"><i
+                        class="fas fa-backspace"></i> Cancel</a>
+                <p class=" mt-4 border"></p>
+
+            </form>
+        </div>
+    </div>
+</div>

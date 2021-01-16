@@ -1,0 +1,114 @@
+.picture:hover {
+    width: 121px;
+    border-top: 1px dot-dash black;
+    animation: drop 1s ease;
+}
+.images:hover{
+    animation: drop 1s ease;
+}
+.name_input {
+    margin-left: -15px;
+    height: 20px !important;
+    border: 0;
+    width: 80%;
+    outline: 0;
+    font-size: 15px;
+    /*word-break: break-word;*/
+}
+input:placeholder-shown{
+    font-style: italic!important;
+}
+.name_input:focus {
+    background: transparent;
+    border-bottom: 1px ridge black;
+}
+
+.checkbox {
+    position: absolute;
+    margin-top: -25px;
+    margin-left: -70px;
+}
+
+@keyframes drop {
+    0% {
+        opacity: 1;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+#create_directory, #upload_file {
+    display: none;
+    opacity: 0;
+    transform: scale(0);
+    transition: .6s ease opacity, .6s ease transform;
+}
+#create_directory_link, #upload_file_link{
+    cursor: pointer;
+}
+
+#nested_image{
+    width: 50px;
+    height: 62px;
+    position: absolute;
+    margin-top: 49.8px;
+    margin-left: -68.7px;
+   background: white;
+    padding: 4px;
+}
+#nested_image:hover{
+    cursor: pointer;
+    width: 130px;
+    height: 130px;
+    margin-left: -120px;
+    margin-top: 0px;
+    border: 3px solid white;
+    box-shadow: 1px 1px 1px 1px black;
+    border-radius: 10px;
+    transition: 0.5s ease;
+    opacity: 0.9;
+}
+.files input {
+    cursor: pointer;
+    padding: 120px 1px 85px 35%;
+    text-align: center !important;
+    margin: 0;
+    width: 100% !important;
+}
+.files{ position:relative}
+.files:after {  pointer-events: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 50px;
+    right: 0;
+    height: 56px;
+    content: "";
+    background-image: url(../../../images/upload.png);
+    display: block;
+    margin: 0 auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+/*.color input{ background-color:#f1f1f1;}*/
+.files:before {
+    position: absolute;
+    top: 160px;
+    left: 0;  pointer-events: none;
+    width: 100%;
+    right: 0;
+    height: 57px;
+    content: " or drag your file here. ";
+    display: block;
+    margin: 0 auto;
+    color: #2ea591;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+}
+.files input:hover{
+    background: #f8f8f8;
+}

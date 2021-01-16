@@ -31,7 +31,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    'blendmehani.pythonanywhere.com'
+    'blendmehani.pythonanywhere.com',
+    '192.168.0.100'
 ]
 
 # Application definition
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -147,13 +149,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'media')
 ]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_files')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'contact.mypersonaldrive@gmail.com'
-EMAIL_HOST_PASSWORD = '*****'
+EMAIL_HOST_PASSWORD = 'obrphrhubktckhrj'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
