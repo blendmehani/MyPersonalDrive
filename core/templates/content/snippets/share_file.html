@@ -1,0 +1,42 @@
+<div class="content mt-n5">
+    <div class="row">
+        <div class="col-md-6 mx-auto  pb-5 ">
+            <form id="share_file" data-url="{% url 'share_file' user.username %}"
+                  method="post">{% csrf_token %}
+                <div class="form-group pt-2">
+                    <label class="font-weight-bold" for="share_file_name">Enter File Name:</label>
+                    <input class="form-control" id="file_name" required type="text" name="file_name"
+                           placeholder="File name that you want to share." autofocus/>
+                </div>
+                                <div class="form-group pt-2">
+                    <label class="font-weight-bold" for="share_with">Share with:</label>
+                    <input class="form-control" id="share_with" required type="text" name="share_with"
+                           placeholder="Email address of who you want to share." autocomplete="off" autofocus/>
+                </div>
+                <button id="share_file_button" class="btn btn-outline-success shadow-lg mt-3 col-md-12"
+                        type="submit"><i
+                        class="fas fa-folder-plus"></i> Share
+                </button>
+                <a class="btn btn-outline-info mt-3 shadow-lg col-md-12" onclick="hide_share_file()"><i
+                        class="fas fa-backspace"></i> Cancel</a>
+                <p class=" mt-4 border"></p>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+        $(function () {
+        let availableTags = [
+            {% for file in files %}
+                {% if file.type != 'directory' %}
+                    "{{ file.file_name }}",
+                {% endif %}
+            {% endfor %}
+        ];
+        $("#file_name").autocomplete({
+            source: availableTags
+        });
+    });
+</script>

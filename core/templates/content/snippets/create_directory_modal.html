@@ -11,7 +11,9 @@
                 <p class="" id="body_modal"></p>
             </div>
             <div class="modal-footer">
-                <a href="javascript:window.location.href=window.location.href" type="button" id="button_modal"
+                <a style="display: none;" href="{% url 'recycle_bin' user.username %}" id="shared_files"
+                class="col-md-12 btn btn-outline-info"><i class="fas fa-share-square"></i> Go to Shared Files</a>
+                <a href="javascript:window.location.href=window.location.href" id="button_modal"
                    class=""><i id="icon_modal" class=""> Go to Page</i></a>
             </div>
         </div>

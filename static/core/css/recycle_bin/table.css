@@ -1,0 +1,31 @@
+    .pagination .page-item.active .page-link {
+        background-color: #343a40;
+        border: 1px solid #353a40;
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-item.active .page-link:focus {
+        background-color: #343a40;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #353a40;
+
+    }
+
+    .pagination .page-item.active .page-link:hover {
+        background-color: #343a40;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #353a40;
+        border: 1px solid #353a40;
+    }
+    .dataTables_filter input{
+        width: 250px!important;
+        height: 40px!important;
+    }
+    .dataTables_length select{
+                height: 40px!important;
+    }
+
+    .dataTables_length select:focus {
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #353a40;
+        border: 1px solid #353a40;
+    }

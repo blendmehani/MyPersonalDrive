@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 
 class Directory(models.Model):
-    parent_dir_id = models.IntegerField(null=True, blank=True)
+    parent_dir_id = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     dir_name = models.CharField(verbose_name='Directory Name', max_length=18)
     type = models.CharField(max_length=20, verbose_name='Type', default='directory')
@@ -56,3 +56,11 @@ def pre_save_files_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_files_receiver, sender=File)
+
+
+class SharedFile(models.Model):
+    shared_file = models.ForeignKey(File, on_delete=models.CASCADE)
+    shared_from = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='shared_from', on_delete=models.CASCADE)
+    shared_to = models.ForeignKey(settings.AUTH_USER_MODEL,related_name='shared_to', on_delete=models.CASCADE)
+    date_created = models.DateTimeField(verbose_name='Date Created', auto_now_add=True)
+    date_updated = models.DateTimeField(verbose_name='Date Updated', auto_now=True)

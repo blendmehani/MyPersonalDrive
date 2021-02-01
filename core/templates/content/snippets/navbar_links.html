@@ -1,24 +1,41 @@
 <li class="nav-item ml-2" id="">
-    <a class="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onclick="show_create_directory()"
-       id="create_directory_link"> <span class="fas fa-folder-plus"></span> Create Directory</a>
+    <a class="nav-link" href="{% url 'shared_files' user.username %}">
+        <span class="fas fa-share-square"></span> Shared Files</a>
 </li>
-<li class="nav-item ml-2" id="">
-    <a class="nav-link" id="upload_file_link" onclick="show_upload_file()" data-toggle="collapse"
-       data-target=".navbar-collapse.show"> <span class="fa fa-cloud-upload-alt"></span> Upload
-        File</a>
+
+<li class="nav-item dropdown mx-2">
+    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+       aria-expanded="false"> <i class="fas fa-plus"></i> File</a>
+    <div class="dropdown-menu" aria-labelledby="dropdown01">
+        <a class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show"
+           onclick="show_create_directory()"
+           id="create_directory_link"> <span class="fas fa-folder-plus" style="margin-left: 1px;"></span> Create
+            Directory</a>
+        <a class="dropdown-item" id="upload_file_link" onclick="show_upload_file()" data-toggle="collapse"
+           data-target=".navbar-collapse.show"> <span class="fa fa-cloud-upload-alt"></span> Upload File</a>
+        <a class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show" id="share_file_link"
+           onclick="show_share_file()"><i class="fas fa-share-square"
+                                          style="margin-left: 2px;"></i><span> Share File</span></a>
+    </div>
 </li>
+
+
 <li class="nav-item dropdown mx-2">
     <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false"> <i class="fas fa-directions"></i> Action</a>
     <div class="dropdown-menu" aria-labelledby="dropdown01">
-        <a class="dropdown-item" href="#"><i
-                class="fas fa-cloud-download-alt"></i><span> Download File</span></a>
-        <a class="dropdown-item" href="#"><i
-                class="fas fa-share-square"></i><span> Share File</span></a>
-        <a class="dropdown-item" href="#"><i class="fas fa-trash-alt" style="margin-left: 1px;"></i><span
-                style="margin-left: 3px;"> Delete</span></a>
         <a class="dropdown-item" onclick="show_hide_thumbnail()" id="show_thumbnail"
-           style="cursor: pointer; display: block;"><i id="thumbnail_logo" class="far fa-eye"></i>
+           style="cursor: pointer; display: block; margin-left: -3px;"><i id="thumbnail_logo" class="far fa-eye"></i>
             <span id="thumbnail_text"> Show Thumbnails</span></a>
+        <a class="dropdown-item" id="delete" style="cursor: pointer;"><i class="fas fa-times"></i>
+            <span> Delete</span></a>
+        <a class="dropdown-item" id="delete" data-toggle="modal" data-target="#recycle_bin_modal"
+           style="cursor: pointer;"><i class="fas fa-trash-alt" style="margin-left: -2px;"></i>
+            <span> Empty Recycle Bin</span></a>
     </div>
 </li>
+<li class="nav-item ml-2" id="">
+    <a class="nav-link" href="{% url 'recycle_bin' user.username %}" id="upload_file_link"> <span
+            class="fas fa-trash-alt"></span> Recycle Bin</a>
+</li>
+

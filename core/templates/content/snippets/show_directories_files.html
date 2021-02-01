@@ -1,6 +1,9 @@
 {% load template_extra %}
+
+{% include 'content/snippets/empty_recycle_modal.html' %}
+
 {% if files %}
-    <form id="change_name2" action="{% url 'change_name' user.username %}" method="post">
+    <form id="manage_files_form" method="post">
         {% csrf_token %}
         <div class="row mt-n5" id="file_list">
             {% for file in files %}
@@ -25,12 +28,13 @@
                                 {% endif %}
                             </div>
                             <div class="service-body">
-                                <input type="checkbox" value="{{ file.id }}" class="checkbox">
-
+                                <label class="container_checkbox">
+                                    <input type="checkbox" name="dc{{ file.id }}" value="checked" class="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
                                 <input required type="text" name="d{{ file.id }}" value="{{ file.dir_name }}"
                                        maxlength="18" autocomplete="off"
                                        class="text-center name_input mt-1 mb-2">
-
                             </div>
                         </div>
                     </div>
@@ -50,8 +54,11 @@
                                         alt="Image"></a>
                             </div>
                             <div class="">
-                                <input type="checkbox" value="{{ file.id }}" class="checkbox">
-
+                                <label class="container_checkbox">
+                                    <a href="" class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                    <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
                                 <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
                                        maxlength="18" autocomplete="off"
                                        class="text-center name_input  mb-2">
@@ -63,18 +70,23 @@
 
                     <div class="col-md-3">
                         <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
-                            <div class="ml-n3 mt-1">
+                            <div class="ml-n3 mt-2">
                                 <a href="{{ file.file.url }}"><img class="img-fluid picture"
                                                                    src="../../../../static/images/pdf.png"
                                                                    width="120" alt="Pdf"
                                                                    style="width: 100px; height: 110px"></a>
                             </div>
                             <div class="service-body">
-                                <input type="checkbox" value="{{ file.id }}" class="checkbox">
+
+                                <label class="container_checkbox">
+                                    <a href="" class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                    <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
 
                                 <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
                                        maxlength="18" autocomplete="off"
-                                       class="text-center name_input mb-2" style="margin-top: 8px;">
+                                       class="text-center name_input mb-2" style="">
                             </div>
                         </div>
                     </div>
@@ -96,4 +108,16 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+    $(document).ready(function () {
+        $('.name_input').on('change', function () {
+            $('#manage_files_form').attr('action', '{% url 'change_name' user.username %}').submit()
+        });
+    });
+
+    $(document).ready(function () {
+        $('#delete').on('click', function () {
+            $('#manage_files_form').attr('action', '{% url 'delete_file' user.username %}').submit()
+        });
+    });
+
 </script>

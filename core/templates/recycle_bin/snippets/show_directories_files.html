@@ -1,0 +1,152 @@
+{% load template_extra %}
+{% load static %}
+<p class="border-bottom text-justify pb-1">Files in the recycle bin will be deleted permanently after 30 days.</p>
+<div class="mt-4 text-justify pb-4">
+
+    {% if all_deleted_directories or all_deleted_files %}
+        <h4>You have "{{ all_deleted_directories }}" <span id="directory">directories</span>, "{{ all_deleted_files }}"
+            <span id="file">files</span>
+            in Recycle Bin.</h4>
+    {% else %}
+        <div class="col-md-10 mx-auto text-center">
+            <h3 class="pb-4">Recycle bin is empty.</h3>
+
+            <img src="{% static 'images/empty_recycle_bin.png' %}" class="img-fluid ml-4" width="250" alt="">
+            <p class="pt-4">Deleted directories, files(moved to recycle bin) will be shown here.</p>
+
+        </div>
+    {% endif %}
+</div>
+
+
+<form id="recycle_bin_form" method="POST">
+    {% csrf_token %}
+
+    {% if files %}
+        <table id="recycle_bin_table" class="table table-striped" style="width:100%">
+            <thead class="thead-dark">
+            <tr>
+                <th></th>
+                <th class="no-sort">Select</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Contains</th>
+                <th>Date Deleted</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for file in files %}
+                {% if file.type == 'directory' %}
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label class="container_checkbox ml-2 mt-4">
+                                <input type="checkbox" name="dc{{ file.id }}" value="checked" class="checkbox">
+                                <span class="checkmark" style="margin-top: 15px;"></span>
+                            </label>
+                            <img class="ml-5 mt-n1" width="30" height="30" src="{% static 'images/directory.png' %}"
+                                 alt="">
+                        </td>
+                        <td>{{ file.dir_name }}</td>
+                        <td>{{ file.type }}</td>
+                        <td>-</td>
+                        <td>
+                            {{ file.count_directories }} <span class="d{{ file.id }}">directories</span>,
+                            {{ file.count_files }} <span class="f{{ file.id }}">files</span>
+                        </td>
+                        <td>{{ file.date_updated }}</td>
+                    </tr>
+
+                    <script>
+                        {% if file.count_files == 1 %}
+                            $('.f{{ file.id }}').text('file')
+                        {% else %}
+                            $(".f{{file.id}}").text('files')
+                        {% endif %}
+                        {% if file.count_directories == 1 %}
+                            $('.d{{ file.id }}').text('directory')
+                        {% else %}
+                            $(".d{{ file.id }}").text('directories')
+                        {% endif %}
+                    </script>
+
+                {% elif file.type == 'image' %}
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label class="container_checkbox ml-2 mt-4">
+                                <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
+                                <span class="checkmark" style="margin-top: 15px;"></span>
+                            </label>
+                            <img class=" mt-n1" style="margin-left: 44px;" width="30" height="30"
+                                 src="{% static 'images/image.png' %}" alt="">
+                        </td>
+                        <td>{{ file.file_name }}</td>
+                        <td>{{ file.type }}</td>
+                        <td class="fs{{ file.id }}"></td>
+                        <td>-</td>
+                        <td>{{ file.date_updated }}</td>
+                    </tr>
+
+                {% elif file.type == 'pdf' %}
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label class="container_checkbox ml-2 mt-4">
+                                <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
+                                <span class="checkmark" style="margin-top: 15px;"></span>
+                            </label>
+                            <img class=" mt-n1" style="margin-left: 43px;" width="30" height="30"
+                                 src="{% static 'images/pdf.png' %}" alt="">
+                        </td>
+                        <td>{{ file.file_name }}</td>
+                        <td>{{ file.type }}</td>
+                        <td class="fs{{ file.id }}"></td>
+                        <td>-</td>
+                        <td>{{ file.date_updated }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if file.file.size %}
+                    <script>
+                        var file_size = {{ file.file.size }}
+                            file_size = (file_size / 1024).toFixed(2)
+                        if (file_size > 1024) {
+                            file_size = (file_size / 1024).toFixed(2)
+                            $('.fs{{ file.id }}').text(file_size + 'MB')
+                        } else {
+                            $('.fs{{ file.id }}').text(file_size + 'KB')
+                        }
+                    </script>
+                {% endif %}
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    {% endif %}
+    <br>
+</form>
+
+<script>
+    {% if all_deleted_directories == 1 %}
+        $('#directory').text('directory')
+    {% endif %}
+    {% if all_deleted_files == 1 %}
+        $('#file').text('file')
+    {% endif %}
+    $(document).ready(function () {
+        $('#restore_selected').on('click', function () {
+            $('#recycle_bin_form').attr('action', '{% url 'restore_selected' user.username %}').submit()
+        });
+    });
+    $(document).ready(function () {
+        $('#delete_selected').on('click', function () {
+            $('#recycle_bin_form').attr('action', '{% url 'permanently_delete_selected' user.username %}').submit()
+        });
+    });
+</script>

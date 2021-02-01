@@ -1,0 +1,26 @@
+<li class="nav-item ml-2" id="">
+    <a class="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show"
+       id="create_directory_link"> <span class="fas fa-share-square"></span> Shared Files</a>
+</li>
+
+<li class="nav-item dropdown mx-2">
+    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+       aria-expanded="false"> <i class="fas fa-directions"></i> Action</a>
+    <div class="dropdown-menu" aria-labelledby="dropdown01">
+        <a class="dropdown-item" id="restore_selected" style="cursor: pointer;"><i class="fas fa-reply"></i>
+            <span> Restore Selected</span></a>
+        <a class="dropdown-item" href="{% url 'restore_all' user.username %}"><i class="fas fa-reply-all"></i>
+            <span> Restore All</span></a>
+        <a class="dropdown-item" data-toggle="modal" data-target="#delete_selected_recycle_bin_modal"
+           style="cursor: pointer;"><i class="fas fa-times" style="margin-left: 2px;"></i>
+            <span> Delete Selected</span></a>
+        <a class="dropdown-item" data-toggle="modal" data-target="#recycle_bin_modal"
+           style="cursor: pointer;"><i class="fas fa-trash-alt"></i>
+            <span> Empty Recycle Bin</span></a>
+    </div>
+</li>
+
+<li class="nav-item ml-2" id="">
+    <a class="nav-link active" href="{% url 'recycle_bin' user.username %}" id="upload_file_link"> <span
+            class="fas fa-trash-alt"></span> Recycle Bin</a>
+</li>

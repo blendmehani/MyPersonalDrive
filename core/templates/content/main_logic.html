@@ -8,6 +8,7 @@
 {% endblock link %}
 
 {% block content %}
+
     <link rel="stylesheet" href="{% static 'core/css/content/main_nested.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/user_settings/user_settings.css' %}">
 
@@ -17,6 +18,9 @@
     {#    UPLOAD FILE FORM#}
     {% include 'content/snippets/upload_file.html' %}
     {#----------------------------#}
+    {#    SHARE FILE FORM#}
+    {% include 'content/snippets/share_file.html' %}
+    {#    -------------------------------#}
     {#SHOW DIRECTORIES, FILES#}
     {% include 'content/snippets/show_directories_files.html' %}
     {#------------------------#}

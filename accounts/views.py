@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, Http404
 from django.contrib.auth import login, authenticate, logout
 from accounts.forms import RegisterForm, LoginForm
 from random import randint
@@ -9,7 +9,7 @@ def login_view(request):
     context = {}
     user = request.user
     if user.is_authenticated:
-        return redirect('main', request.user.username)
+        redirect('main', user.username)
 
     if request.POST:
         form = LoginForm(request.POST)
@@ -44,7 +44,7 @@ def register_view(request):
             year = birthdate.strftime('%Y')
             username = first_name.lower() + last_name.lower() + str(year)
             while User.objects.filter(username=username).exists():
-                username = first_name.lower() + last_name.lower() + str(randint(1, 100000))
+                username = first_name.lower() + last_name.lower() + str(randint(1000, 10000))
             register.username = username
             register.first_name = register.first_name.capitalize()
             register.last_name = register.last_name.capitalize()

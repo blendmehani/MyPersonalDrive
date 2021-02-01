@@ -1,0 +1,29 @@
+{% extends 'core/main.html' %}
+{% load static %}
+
+{% block link %}
+
+    {% include 'content/snippets/navbar_links.html' %}
+
+{% endblock link %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'core/css/content/main_nested.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/recycle_bin/table.css' %}">
+
+
+    {% if files %}
+        {% for file in files %}
+            <p>{{ file.shared_file }}</p>
+            <p>{{ file.shared_to }}</p>
+            <p>{{ file.shared_from }}</p>
+        {% endfor %}
+
+    {% endif %}
+
+
+<script src="{% static 'core/js/recycle_bin/table.js' %}"></script>
+
+{% endblock content %}
+

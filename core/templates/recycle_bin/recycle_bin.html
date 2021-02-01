@@ -1,0 +1,23 @@
+{% extends 'core/main.html' %}
+{% load static %}
+
+{% block link %}
+
+    {% include 'recycle_bin/snippets/navbar_links.html' %}
+
+{% endblock link %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'core/css/content/main_nested.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/recycle_bin/table.css' %}">
+
+    {% include 'recycle_bin/snippets/delete_selected_recycle_modal.html' %}
+    {% include 'content/snippets/empty_recycle_modal.html' %}
+    {% include 'recycle_bin/snippets/show_directories_files.html' %}
+
+
+<script src="{% static 'core/js/recycle_bin/table.js' %}"></script>
+
+{% endblock content %}
+
