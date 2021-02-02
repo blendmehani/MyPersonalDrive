@@ -16,6 +16,7 @@ from core.views import (
     permanently_delete_selected,
     share_file,
     shared_files,
+    move_to,
 )
 from accounts.views import logout_view
 from django.contrib.auth import views as auth_views
@@ -38,6 +39,7 @@ urlpatterns = [
     path('delete_permanently', permanently_delete_selected, name='permanently_delete_selected'),
     path('share_file', share_file, name='share_file'),
     path('shared_files', shared_files, name='shared_files'),
+    path('move_to', move_to, name='move_to'),
     path('password_change/',
          auth_views.PasswordChangeView.as_view(template_name='change_password.html'),
          name='password_change'),

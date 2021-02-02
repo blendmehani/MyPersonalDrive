@@ -96,8 +96,11 @@
             {% endfor %}
 
         </div>
+
+    {% include 'content/snippets/move_to.html' %}
+
     </form>
-{% else %}
+{% elif empty %}
     <div class="pt-3 text-center border col-md-6 mx-auto">
         <h2 class="pb-1 border-bottom">No results</h2>
         <p class="pt-2">{{ empty }}</p>
@@ -117,6 +120,12 @@
     $(document).ready(function () {
         $('#delete').on('click', function () {
             $('#manage_files_form').attr('action', '{% url 'delete_file' user.username %}').submit()
+        });
+    });
+
+        $(document).ready(function () {
+        $('#move_to_select').on('change', function () {
+            $('#manage_files_form').attr('action', '{% url 'move_to' user.username %}').submit()
         });
     });
 

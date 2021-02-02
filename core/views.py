@@ -24,14 +24,16 @@ def main(request, username):
 
     if request.GET.get('file_name'):
         file_name = request.GET.get('file_name')
-        searched_files = File.objects.filter(user=user, file_name__icontains=file_name, is_deleted=False).order_by('date_created')
+        searched_files = File.objects.filter(user=user, file_name__icontains=file_name, is_deleted=False).order_by(
+            'date_created')
         directories_files = searched_files
         if not searched_files:
             context['empty'] = f'There were no results matching your search: "{file_name}".'
 
     context['files'] = directories_files
     context['user_url'] = request.build_absolute_uri()
-    context['all_directories'] = Directory.objects.filter(user=user).values('parent_dir_id')
+    context['all_directories'] = Directory.objects.filter(user=user, is_deleted=False).values('parent_dir_id')
+    context['directories'] = Directory.objects.filter(user=user, is_deleted=False).values('dir_name')
     context['all_files'] = File.objects.filter(user=user).values('parent_dir_id')
     return render(request, 'content/main_logic.html', context)
 
@@ -54,6 +56,8 @@ def nested(request, dir_name, username):
     directories_files = list(chain(directories, files))
     directories_files.sort(key=lambda x: x.date_created)
     context['files'] = directories_files
+    context['directories'] = Directory.objects.filter(user=user, is_deleted=False).exclude(id=parent_id.id)
+    context['nested'] = '1'
     return render(request, 'content/main_logic.html', context)
 
 
@@ -374,6 +378,34 @@ def shared_files(request, username):
     context['files'] = files
     return render(request, 'share_file/share_file.html', context)
 
+
+def move_to(request, username):
+    user = request.user
+
+    if request.POST:
+        print(request.POST)
+        directories = Directory.objects.filter(user=user, is_deleted=False)
+        files = File.objects.filter(user=user, is_deleted=False)
+        parent_dir = request.POST.get('move_to_select')
+        if parent_dir == '!none':
+            parent_dir = None
+        else:
+            parent_dir = Directory.objects.get(user=user, is_deleted=False, dir_name=parent_dir)
+
+        for directory in directories:
+            if request.POST.get('dc' + str(directory.id)):
+                if request.POST.get('dc' + str(directory.id)) == 'checked':
+                    if not request.POST.get('move_to_select') == directory.dir_name:
+                        print(request.POST.get('move_to_select'))
+                        print(directory.dir_name)
+                        directory.parent_dir_id = parent_dir
+                        directory.save()
+        for file in files:
+            if request.POST.get('fc' + str(file.id)):
+                if request.POST.get('fc' + str(file.id)) == 'checked':
+                    file.parent_dir_id = parent_dir
+                    file.save()
+    return redirect('main', username)
 
 # def delete_file(request, username):
 #

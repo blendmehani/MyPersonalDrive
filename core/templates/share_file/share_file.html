@@ -15,7 +15,7 @@
 
     {% if files %}
         {% for file in files %}
-            <p>{{ file.shared_file }}</p>
+            <p>{{ file.shared_file.file }}</p>
             <p>{{ file.shared_to }}</p>
             <p>{{ file.shared_from }}</p>
         {% endfor %}
