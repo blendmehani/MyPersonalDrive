@@ -7,43 +7,174 @@
            data-off="<i class='fas fa-download'></i> To you" data-onstyle="outline-dark" data-offstyle="outline-dark">
 </div>
 
-<div id="shared_to_div">
-    {% if shared_to %}
+<form id="manage_shared_files_form" action="{% url 'unshare_selected' user.username %}" method="post">
+    <div id="shared_to_div">
+        {% if shared_to %}
 
-        {% for file in shared_to %}
-            <p>{{ file.shared_file }}</p>
-        {% endfor %}
 
-    {% else %}
+            {% csrf_token %}
+            <div class="row mt-4" id="file_list">
+                {% for file in shared_to %}
 
-        <div class="col-md-10 mx-auto mt-5 pt-5 text-center">
-            <h3 class="pb-4">No one shared a file with you.</h3>
+                    {% if file.shared_file.type == 'image' %}
 
-            <img src="{% static 'images/magnifier.png' %}" class="img-fluid ml-4" width="250" alt="">
-            <p class="pt-4">All the shared files to you, will be shown here.</p>
+                        <div class="col-md-3"
+                             title="By: {{ file.shared_from }}">
+                            <div class="m-3 px-3 pt-0 rounded text-center service directory-bg">
+                                <div class="container ml-n2 " style="margin-top: 20px!important;">
+                                    <a class="nested_image_b" style="display: block;"
+                                       href="{{ file.shared_file.file.url }}"><img
+                                            class="img-fluid rounded"
+                                            src="../../../../static/images/image.png"
+                                            width="120" alt="File" style="height: 130px;"></a>
 
-        </div>
-    {% endif %}
-</div>
+                                    <a class="nested_image_a" href="{{ file.file.url }}" style="display: none;"><img
+                                            class="rounded" src="{{ file.file.url }}" id="nested_image"
+                                            alt="Image"></a>
+                                </div>
+                                <div class="">
+                                    <label class="container_checkbox">
+                                        <a href="{{ file.shared_file.file.url }}" download="{{ file.shared_file }}"
+                                           class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                        <input type="checkbox" name="tfc{{ file.id }}" value="checked" class="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
 
-<div id="shared_from_div">
-    {% if shared_from %}
+                                    <p class="ml-n3 mt-n1">{{ file.shared_file }}</p>
+                                </div>
+                            </div>
+                        </div>
 
-        {% for file in shared_from %}
-            <p>{{ file.shared_file }}</p>
-        {% endfor %}
+                    {% else %}
 
-    {% else %}
-        <div class="col-md-10 mx-auto mt-5 pt-5 text-center">
-            <h3 class="pb-4">You did not share a file with anyone.</h3>
+                        <div class="col-md-3" title="By: {{ file.shared_from }}">
+                            <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
+                                <div class="ml-n3 mt-2">
+                                    <a href="../../media/{{ file.shared_file.file }}"><img class="img-fluid picture"
+                                                                                           src="../../../../static/images/pdf.png"
+                                                                                           width="120" alt="Pdf"
+                                                                                           style="width: 100px; height: 110px"></a>
+                                </div>
+                                <div class="service-body">
 
-            <img src="{% static 'images/magnifier.png' %}" class="img-fluid ml-4" width="250" alt="">
-            <p class="pt-4">All the files you shared with anyone, will be shown here.</p>
+                                    <label class="container_checkbox">
+                                        <a href="{{ file.shared_file.file.url }}" download="{{ file.shared_file }}"
+                                           class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                        <input type="checkbox" name="tfc{{ file.id }}" value="checked" class="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
 
-        </div>
-    {% endif %}
-</div>
+                                    <p class="ml-n3">{{ file.shared_file }}</p>
+                                </div>
+                            </div>
+                        </div>
 
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="col-md-10 mx-auto mt-5 pt-5 text-center">
+                <h3 class="pb-4">No one shared a file with you.</h3>
+
+                <img src="{% static 'images/magnifier.png' %}" class="img-fluid ml-4" width="250" alt="">
+                <p class="pt-4">All the shared files to you, will be shown here.</p>
+
+            </div>
+        {% endif %}
+    </div>
+
+    <div id="shared_from_div">
+        {% if shared_from %}
+
+            <div class="row mt-4" id="file_list">
+                {% for file in shared_from %}
+
+                    {% if file.shared_file.type == 'image' %}
+
+                        <div class="col-md-3"
+                             title="To: {{ file.shared_to }}">
+                            <div class="m-3 px-3 pt-0 rounded text-center service directory-bg">
+                                <div class="container ml-n2 " style="margin-top: 20px!important;">
+                                    <a class="nested_image_b" style="display: block;"
+                                       href="{{ file.shared_file.file.url }}"><img
+                                            class="img-fluid rounded"
+                                            src="../../../../static/images/image.png"
+                                            width="120" alt="File" style="height: 130px;"></a>
+
+                                    <a class="nested_image_a" href="{{ file.file.url }}" style="display: none;"><img
+                                            class="rounded" src="{{ file.file.url }}" id="nested_image"
+                                            alt="Image"></a>
+                                </div>
+                                <div class="">
+                                    <label class="container_checkbox">
+                                        <a href="{{ file.shared_file.file.url }}" download="{{ file.shared_file }}"
+                                           class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                        <input type="checkbox" name="ffc{{ file.id }}" value="checked" class="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+
+                                    <p class="ml-n3 mt-n1">{{ file.shared_file }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+
+                        <div class="col-md-3" title="To: {{ file.shared_to }}">
+                            <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
+                                <div class="ml-n3 mt-2">
+                                    <a href="{{ file.shared_file.file.url }}"><img class="img-fluid picture"
+                                                                                   src="../../../../static/images/pdf.png"
+                                                                                   width="120" alt="Pdf"
+                                                                                   style="width: 100px; height: 110px"></a>
+                                </div>
+                                <div class="service-body">
+
+                                    <label class="container_checkbox">
+                                        <a href="{{ file.shared_file.file.url }}" download="{{ file.shared_file }}"
+                                           class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                        <input type="checkbox" name="ffc{{ file.id }}" value="checked" class="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+
+                                    <p class="ml-n3">{{ file.shared_file }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+
+
+        {% else %}
+            <div class="col-md-10 mx-auto mt-5 pt-5 text-center">
+                <h3 class="pb-4">You did not share a file with anyone.</h3>
+
+                <img src="{% static 'images/magnifier.png' %}" class="img-fluid ml-4" width="250" alt="">
+                <p class="pt-4">All the files you shared with anyone, will be shown here.</p>
+
+            </div>
+        {% endif %}
+    </div>
+</form>
+
+<script>
+
+    {#$(document).ready(function () {#}
+    {#    $('#unshare_selected').on('click', function () {#}
+    {#        $('#manage_shared_files_form').attr('action', '{% url 'unshare_selected' user.username %}').submit()#}
+    {#    });#}
+    {# });#}
+
+</script>
 
 <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
       rel="stylesheet">

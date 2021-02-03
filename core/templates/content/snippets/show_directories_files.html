@@ -1,5 +1,5 @@
 {% load template_extra %}
-
+{% load static %}
 {% include 'content/snippets/empty_recycle_modal.html' %}
 
 {% if files %}
@@ -12,7 +12,7 @@
 
                     <div class="col-md-3">
                         <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
-                            <div class="ml-4" data-toggle="tooltip" data-placement="top" title="Directory">
+                            <div class="ml-4" data-toggle="tooltip" title="Directory">
                                 {% if file.id|to_str in all_directories|to_str or file.id|to_str in all_files|to_str %}
                                     <a href="{% url 'nested' user.username file.dir_name %}"><img
                                             class="img-fluid picture"
@@ -55,7 +55,9 @@
                             </div>
                             <div class="">
                                 <label class="container_checkbox">
-                                    <a href="" class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                    <a href="{{ file.file.url }}" download="{{ file.file_name }}" class="download-icon"><i
+                                            class="fas fa-cloud-download-alt"></i></a>
+
                                     <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
@@ -79,7 +81,8 @@
                             <div class="service-body">
 
                                 <label class="container_checkbox">
-                                    <a href="" class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                    <a href="{{ file.file.url }}" download="{{ file.file_name }}" class="download-icon"><i
+                                            class="fas fa-cloud-download-alt"></i></a>
                                     <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
                                     <span class="checkmark"></span>
                                 </label>
@@ -97,20 +100,19 @@
 
         </div>
 
-    {% include 'content/snippets/move_to.html' %}
+        {% include 'content/snippets/move_to.html' %}
 
     </form>
 {% elif empty %}
     <div class="pt-3 text-center border col-md-6 mx-auto">
-        <h2 class="pb-1 border-bottom">No results</h2>
+        <h2 class="pb-1 border-bottom">No results <img src="{% static 'images/magnifier.png' %}" width="50"
+                                                       alt="magnifier"></h2>
         <p class="pt-2">{{ empty }}</p>
     </div>
 {% endif %}
 
 <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+
     $(document).ready(function () {
         $('.name_input').on('change', function () {
             $('#manage_files_form').attr('action', '{% url 'change_name' user.username %}').submit()
@@ -123,7 +125,7 @@
         });
     });
 
-        $(document).ready(function () {
+    $(document).ready(function () {
         $('#move_to_select').on('change', function () {
             $('#manage_files_form').attr('action', '{% url 'move_to' user.username %}').submit()
         });

@@ -241,15 +241,10 @@ def empty_recycle_bin(request, username):
     if not username == request.user.username:
         raise Http404
 
-    directories = Directory.objects.filter(is_deleted=True, user=user)
-    files = File.objects.filter(is_deleted=True, user=user)
-    if directories:
-        for directory in directories:
-            directory.delete()
-    if files:
-        for file in files:
-            file.delete()
-    return redirect('main', username)
+    Directory.objects.filter(is_deleted=True, user=user).delete()
+    File.objects.filter(is_deleted=True, user=user).delete()
+
+    return redirect('recycle_bin', username)
 
 
 def recycle_bin(request, username):
@@ -277,18 +272,11 @@ def recycle_bin(request, username):
 
 def restore_all(request, username):
     user = request.user
-    if not user.is_authenticated and not user.username == username:
+    if not user.is_authenticated or user.username != username:
         raise Http404
 
-    directories = Directory.objects.filter(user=user, is_deleted=True)
-    files = File.objects.filter(user=user, is_deleted=True)
-
-    for directory in directories:
-        directory.is_deleted = False
-        directory.save()
-    for file in files:
-        file.is_deleted = False
-        file.save()
+    Directory.objects.filter(user=user, is_deleted=True).update(is_deleted=False)
+    File.objects.filter(user=user, is_deleted=True).update(is_deleted=False)
 
     return redirect('recycle_bin', username)
 
@@ -309,7 +297,6 @@ def restore_selected(request, username):
                 if request.POST.get('fc' + str(file.id)) == 'checked':
                     file.is_deleted = False
                     file.save()
-        return redirect('recycle_bin', username)
     return redirect('recycle_bin', username)
 
 
@@ -327,7 +314,6 @@ def permanently_delete_selected(request, username):
             if request.POST.get('fc' + str(file.id)):
                 if request.POST.get('fc' + str(file.id)) == 'checked':
                     file.delete()
-        return redirect('recycle_bin', username)
     return redirect('recycle_bin', username)
 
 
@@ -345,7 +331,7 @@ def share_file(request, username):
             file = File.objects.get(user=user, is_deleted=False, file_name=file_name)
 
             if User.objects.filter(email=share_with):
-                if not User.objects.filter(email=user.email):
+                if not user.email == share_with:
                     shared_to = get_object_or_404(User, email=share_with)
                     if not SharedFile.objects.filter(shared_file=file, shared_to=shared_to):
                         SharedFile.objects.create(
@@ -361,6 +347,7 @@ def share_file(request, username):
                         response_data['is_success'] = False
                         response_data['message'] = f'File "{file_name}" has already been shared with "{share_with}".'
                 else:
+                    print(User.objects.filter(email=user.email))
                     response_data['title'] = 'We are sorry!'
                     response_data['is_success'] = False
                     response_data['message'] = f'File "{file_name}" can not be shared with yourself.'
@@ -414,21 +401,43 @@ def move_to(request, username):
                     file.save()
     return redirect('main', username)
 
-# def delete_file(request, username):
-#
-#     user = request.user
-#     directories = Directory.objects.filter(user=user)
-#     files = File.objects.filter(user=user)
-#     i = 1
-#     while request.POST.get('form_data[' + str(i) + '][value]'):
-#         if request.POST.get('form_data[' + str(i) + '][value]') == 'checked':
-#             print(request.POST['form_data[' + str(i) + '][name]'])
-#             print(i)
-#             if request.POST.get('form_data[' + str(i) + '][name]') == 'd'+str(i):
-#                 print(i)
-#                 directory = Directory.objects.get(user=user, id=i)
-#                 directory.is_deleted = True
-#                 directory.save()
-#         i = i + 1
-#
-#     return HttpResponse('po')
+
+def unshare_selected(request, username):
+    user = request.user
+    if request.POST:
+        shared_to = SharedFile.objects.filter(shared_to=user)
+        shared_from = SharedFile.objects.filter(shared_from=user)
+        for file in shared_to:
+            if request.POST.get('tfc' + str(file.id)):
+                if request.POST.get('tfc' + str(file.id)) == 'checked':
+                    file.delete()
+        for file in shared_from:
+            if request.POST.get('ffc' + str(file.id)):
+                if request.POST.get('ffc' + str(file.id)) == 'checked':
+                    file.delete()
+    return redirect('shared_files', username)
+
+
+def unshare_to(request, username):
+    user = request.user
+
+    SharedFile.objects.filter(shared_to=user).delete()
+
+    return redirect('shared_files', username)
+
+
+def unshare_from(request, username):
+    user = request.user
+
+    SharedFile.objects.filter(shared_from=user).delete()
+
+    return redirect('shared_files', username)
+
+
+def unshare_all(request, username):
+    user = request.user
+
+    SharedFile.objects.filter(shared_to=user).delete()
+    SharedFile.objects.filter(shared_from=user).delete()
+
+    return redirect('shared_files', username)

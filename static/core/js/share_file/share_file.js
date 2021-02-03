@@ -13,3 +13,18 @@ function valueChanged() {
     }
 
 }
+
+$(function () {
+    $(document).tooltip({
+        position: {
+            my: "center top-19",
+            at: "center bottom",
+        }
+    })
+})
+
+$(document).ready(function() {
+       $("#unshare_selected").click(function() {
+           $("#manage_shared_files_form").submit();
+       });
+    });
