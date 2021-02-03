@@ -1,0 +1,51 @@
+{% load static %}
+
+<div class="col-md-12 text-center">
+    <input id="shared_files_checkbox" onchange="valueChanged()" type="checkbox" data-style="android"
+           data-toggle="toggle"
+           data-on="<i class='fas fa-upload'></i> From you"
+           data-off="<i class='fas fa-download'></i> To you" data-onstyle="outline-dark" data-offstyle="outline-dark">
+</div>
+
+<div id="shared_to_div">
+    {% if shared_to %}
+
+        {% for file in shared_to %}
+            <p>{{ file.shared_file }}</p>
+        {% endfor %}
+
+    {% else %}
+
+        <div class="col-md-10 mx-auto mt-5 pt-5 text-center">
+            <h3 class="pb-4">No one shared a file with you.</h3>
+
+            <img src="{% static 'images/magnifier.png' %}" class="img-fluid ml-4" width="250" alt="">
+            <p class="pt-4">All the shared files to you, will be shown here.</p>
+
+        </div>
+    {% endif %}
+</div>
+
+<div id="shared_from_div">
+    {% if shared_from %}
+
+        {% for file in shared_from %}
+            <p>{{ file.shared_file }}</p>
+        {% endfor %}
+
+    {% else %}
+        <div class="col-md-10 mx-auto mt-5 pt-5 text-center">
+            <h3 class="pb-4">You did not share a file with anyone.</h3>
+
+            <img src="{% static 'images/magnifier.png' %}" class="img-fluid ml-4" width="250" alt="">
+            <p class="pt-4">All the files you shared with anyone, will be shown here.</p>
+
+        </div>
+    {% endif %}
+</div>
+
+
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+      rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+

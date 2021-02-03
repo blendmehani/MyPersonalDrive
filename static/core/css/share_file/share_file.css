@@ -1,0 +1,15 @@
+.toggle.android {
+    border-radius: 0px;
+    height: 40px !important;
+}
+
+.toggle.android .toggle-handle {
+    border-radius: 0px;
+}
+
+#shared_from_div{
+    display: none;
+}
+#shared_to_div{
+    display: block;
+}

@@ -3,7 +3,7 @@
 
 {% block link %}
 
-    {% include 'content/snippets/navbar_links.html' %}
+    {% include 'share_file/snippets/navbar_links.html' %}
 
 {% endblock link %}
 
@@ -11,19 +11,10 @@
 
     <link rel="stylesheet" href="{% static 'core/css/content/main_nested.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/recycle_bin/table.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/share_file/share_file.css' %}">
 
+    {% include 'share_file/snippets/show_files.html' %}
 
-    {% if files %}
-        {% for file in files %}
-            <p>{{ file.shared_file.file }}</p>
-            <p>{{ file.shared_to }}</p>
-            <p>{{ file.shared_from }}</p>
-        {% endfor %}
-
-    {% endif %}
-
-
-<script src="{% static 'core/js/recycle_bin/table.js' %}"></script>
 
 {% endblock content %}
 

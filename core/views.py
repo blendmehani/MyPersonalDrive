@@ -333,7 +333,7 @@ def permanently_delete_selected(request, username):
 
 def share_file(request, username):
     response_data = {}
-    user = User.objects.get(username=username)
+    user = request.user
     files = File.objects.filter(user=user, is_deleted=False)
 
     if request.is_ajax and request.POST:
@@ -345,20 +345,25 @@ def share_file(request, username):
             file = File.objects.get(user=user, is_deleted=False, file_name=file_name)
 
             if User.objects.filter(email=share_with):
-                shared_to = get_object_or_404(User, email=share_with)
-                if not SharedFile.objects.filter(shared_file=file, shared_to=shared_to):
-                    SharedFile.objects.create(
-                        shared_file=file,
-                        shared_from=shared_from,
-                        shared_to=shared_to
-                    )
-                    response_data['title'] = 'Congratulations!'
-                    response_data['is_success'] = True
-                    response_data['message'] = f'File "{file_name}" has been shared with "{share_with}"'
+                if not User.objects.filter(email=user.email):
+                    shared_to = get_object_or_404(User, email=share_with)
+                    if not SharedFile.objects.filter(shared_file=file, shared_to=shared_to):
+                        SharedFile.objects.create(
+                            shared_file=file,
+                            shared_from=shared_from,
+                            shared_to=shared_to
+                        )
+                        response_data['title'] = 'Congratulations!'
+                        response_data['is_success'] = True
+                        response_data['message'] = f'File "{file_name}" has been shared with "{share_with}"'
+                    else:
+                        response_data['title'] = 'We are sorry!'
+                        response_data['is_success'] = False
+                        response_data['message'] = f'File "{file_name}" has already been shared with "{share_with}".'
                 else:
                     response_data['title'] = 'We are sorry!'
                     response_data['is_success'] = False
-                    response_data['message'] = f'File "{file_name}" has already been shared with "{share_with}".'
+                    response_data['message'] = f'File "{file_name}" can not be shared with yourself.'
             else:
                 response_data['title'] = 'We are sorry!'
                 response_data['is_success'] = False
@@ -373,9 +378,11 @@ def share_file(request, username):
 
 def shared_files(request, username):
     context = {}
-    files = SharedFile.objects.filter()
-    print(files)
-    context['files'] = files
+    user = request.user
+    shared_to = SharedFile.objects.filter(shared_to=user).order_by('date_created')
+    shared_from = SharedFile.objects.filter(shared_from=user).order_by('date_created')
+    context['shared_to'] = shared_to
+    context['shared_from'] = shared_from
     return render(request, 'share_file/share_file.html', context)
 
 
