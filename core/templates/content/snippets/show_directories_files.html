@@ -35,6 +35,9 @@
                                 <input required type="text" name="d{{ file.id }}" value="{{ file.dir_name }}"
                                        maxlength="18" autocomplete="off"
                                        class="text-center name_input mt-1 mb-2">
+                                {% if  file.file_name|length >= 18 %}
+                                    ...
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -45,17 +48,17 @@
                         <div class="m-3 px-3 pt-0 rounded text-center service directory-bg">
                             <div class="container ml-n2 " style="margin-top: 20px!important;">
                                 <a class="nested_image_b" style="display: block;" href="{{ file.file.url }}"><img
-                                        class="img-fluid rounded"
+                                        class="img-fluid rounded picture"
                                         src="../../../../static/images/image.png"
-                                        width="120" alt="File" style="height: 130px;"></a>
+                                        width="120" alt="Image" style="height: 130px;"></a>
 
-                                <a class="nested_image_a" href="{{ file.file.url }}" style="display: none;"><img
-                                        class="rounded" src="{{ file.file.url }}" id="nested_image"
+                                <a class="nested_image_a" href="{{ file.file.url }}" style="display: none;"><img class="img-fluid picture"
+                                        src="{{ file.file.url }}" id="nested_image"
                                         alt="Image"></a>
                             </div>
                             <div class="">
                                 <label class="container_checkbox">
-                                    <a href="../download{{ file.file.url }}"  class="download-icon"><i
+                                    <a href="../download{{ file.file.url }}" class="download-icon"><i
                                             class="fas fa-cloud-download-alt"></i></a>
 
                                     <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
@@ -64,6 +67,39 @@
                                 <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
                                        maxlength="18" autocomplete="off"
                                        class="text-center name_input  mb-2">
+                                {% if  file.file_name|length >= 18 %}
+                                    ...
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                {% elif file.type == 'txt' %}
+
+                    <div class="col-md-3">
+                        <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
+                            <div class="ml-n3 mt-2">
+                                <a href="{{ file.file.url }}"><img class="img-fluid picture"
+                                                                   src="../../../../static/images/txt.png"
+                                                                   width="120" alt="Txt"
+                                                                   style="width: 100px; height: 110px"></a>
+                            </div>
+                            <div class="service-body">
+
+                                <label class="container_checkbox">
+                                    <a href="../download{{ file.file.url }}" class="download-icon"><i
+                                            class="fas fa-cloud-download-alt"></i></a>
+                                    <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+
+                                <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
+                                       maxlength="18" autocomplete="off"
+                                       class="text-center name_input mb-2" style="">
+                                {% if  file.file_name|length >= 18 %}
+                                    ...
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>
@@ -90,6 +126,9 @@
                                 <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
                                        maxlength="18" autocomplete="off"
                                        class="text-center name_input mb-2" style="">
+                                {% if  file.file_name|length >= 18 %}
+                                    ...
+                                {% endif %}
                             </div>
                         </div>
                     </div>

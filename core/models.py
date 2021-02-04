@@ -51,6 +51,8 @@ def pre_save_files_receiver(sender, instance, *args, **kwargs):
     print(file)
     if file.endswith('.pdf'):
         instance.type = 'pdf'
+    elif file.endswith('.txt'):
+        instance.type = 'txt'
     else:
         instance.type = 'image'
 

@@ -369,6 +369,22 @@ def shared_files(request, username):
     user = request.user
     shared_to = SharedFile.objects.filter(shared_to=user).order_by('date_created')
     shared_from = SharedFile.objects.filter(shared_from=user).order_by('date_created')
+
+    if request.GET.get('file_name'):
+        file_name = request.GET.get('file_name')
+        searched_files_to = SharedFile.objects.filter(shared_to=user,
+                                                      shared_file__file_name__icontains=file_name).order_by(
+            'date_created')
+        searched_files_from = SharedFile.objects.filter(shared_from=user,
+                                                        shared_file__file_name__icontains=file_name).order_by(
+            'date_created')
+        shared_to = searched_files_to
+        shared_from = searched_files_from
+        if not searched_files_to:
+            context['empty_to'] = f'There were no results matching your search: "{file_name}".'
+        if not searched_files_from:
+            context['empty_from'] = f'There were no results matching your search: "{file_name}".'
+
     context['shared_to'] = shared_to
     context['shared_from'] = shared_from
     return render(request, 'share_file/share_file.html', context)
