@@ -55,7 +55,7 @@
                             </div>
                             <div class="">
                                 <label class="container_checkbox">
-                                    <a href="{{ file.file.url }}" download="{{ file.file_name }}" class="download-icon"><i
+                                    <a href="../download{{ file.file.url }}"  class="download-icon"><i
                                             class="fas fa-cloud-download-alt"></i></a>
 
                                     <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
@@ -81,7 +81,7 @@
                             <div class="service-body">
 
                                 <label class="container_checkbox">
-                                    <a href="{{ file.file.url }}" download="{{ file.file_name }}" class="download-icon"><i
+                                    <a href="../download{{ file.file.url }}" class="download-icon"><i
                                             class="fas fa-cloud-download-alt"></i></a>
                                     <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
                                     <span class="checkmark"></span>

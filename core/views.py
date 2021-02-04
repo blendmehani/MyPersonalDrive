@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404, Http404
 from .forms import UpdateUserForm, UploadFile
 from accounts.models import User
 from .models import Directory, File, SharedFile
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from itertools import chain
 import os
 from django.db.models import OuterRef, Count, Q, Subquery
+from django.conf import settings
 
 
 def main(request, username):
@@ -441,3 +442,35 @@ def unshare_all(request, username):
     SharedFile.objects.filter(shared_from=user).delete()
 
     return redirect('shared_files', username)
+
+
+def download(request, relative_path):
+    user = request.user
+    if not user.is_authenticated:
+        raise Http404
+
+    file = get_object_or_404(File, file=relative_path)
+    shared_to = SharedFile.objects.filter(shared_file=file, shared_to=user)
+
+    if file.user != request.user and not shared_to.exists():
+        raise Http404
+
+    absolute_path = '{}/{}'.format(settings.MEDIA_ROOT, relative_path)
+    response = FileResponse(open(absolute_path, 'rb'), as_attachment=True)
+    return response
+
+
+def view(request, relative_path):
+    user = request.user
+    if not user.is_authenticated:
+        raise Http404
+
+    file = get_object_or_404(File, file=relative_path)
+    shared_to = SharedFile.objects.filter(shared_file=file, shared_to=user)
+
+    if file.user != request.user and not shared_to.exists():
+        raise Http404
+
+    absolute_path = '{}/{}'.format(settings.MEDIA_ROOT, relative_path)
+    response = FileResponse(open(absolute_path, 'rb'))
+    return response

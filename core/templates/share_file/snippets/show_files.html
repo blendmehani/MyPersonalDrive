@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <div class="col-md-12 text-center">
     <input id="shared_files_checkbox" onchange="valueChanged()" type="checkbox" data-style="android"
            data-toggle="toggle"
@@ -23,18 +24,18 @@
                             <div class="m-3 px-3 pt-0 rounded text-center service directory-bg">
                                 <div class="container ml-n2 " style="margin-top: 20px!important;">
                                     <a class="nested_image_b" style="display: block;"
-                                       href="{{ file.shared_file.file.url }}"><img
+                                       href="{{ file.shared_file.file.url }}" target="_blank"><img
                                             class="img-fluid rounded"
                                             src="../../../../static/images/image.png"
                                             width="120" alt="File" style="height: 130px;"></a>
 
-                                    <a class="nested_image_a" href="{{ file.file.url }}" style="display: none;"><img
+                                    <a class="nested_image_a" target="_blank" href="{{ file.shared_file.url }}" style="display: none;"><img
                                             class="rounded" src="{{ file.file.url }}" id="nested_image"
                                             alt="Image"></a>
                                 </div>
                                 <div class="">
                                     <label class="container_checkbox">
-                                        <a href="{{ file.shared_file.file.url }}" download="{{ file.shared_file }}"
+                                        <a href="/download{{ file.shared_file.file.url }}"
                                            class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
                                         <input type="checkbox" name="tfc{{ file.id }}" value="checked" class="checkbox">
                                         <span class="checkmark"></span>
@@ -50,7 +51,7 @@
                         <div class="col-md-3" title="By: {{ file.shared_from }}">
                             <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
                                 <div class="ml-n3 mt-2">
-                                    <a href="../../media/{{ file.shared_file.file }}"><img class="img-fluid picture"
+                                    <a href="{{ file.shared_file.file.url }}" target="_blank"><img class="img-fluid picture"
                                                                                            src="../../../../static/images/pdf.png"
                                                                                            width="120" alt="Pdf"
                                                                                            style="width: 100px; height: 110px"></a>
@@ -58,7 +59,7 @@
                                 <div class="service-body">
 
                                     <label class="container_checkbox">
-                                        <a href="{{ file.shared_file.file.url }}" download="{{ file.shared_file }}"
+                                        <a href="/download{{ file.shared_file.file.url }}"
                                            class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
                                         <input type="checkbox" name="tfc{{ file.id }}" value="checked" class="checkbox">
                                         <span class="checkmark"></span>
@@ -166,15 +167,6 @@
     </div>
 </form>
 
-<script>
-
-    {#$(document).ready(function () {#}
-    {#    $('#unshare_selected').on('click', function () {#}
-    {#        $('#manage_shared_files_form').attr('action', '{% url 'unshare_selected' user.username %}').submit()#}
-    {#    });#}
-    {# });#}
-
-</script>
 
 <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
       rel="stylesheet">

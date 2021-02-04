@@ -19,14 +19,16 @@ from accounts import urls
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from core.views import download, view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('dashboard.urls')),
     path('', include('accounts.urls')),
     path('<username>/', include('core.urls'), name='main'),
+    path('download/media/<path:relative_path>', download, name='file_download'),
+    path('media/<path:relative_path>', view, name='file_view'),
     path('password_change/done/',
          auth_views.PasswordChangeDoneView.as_view(template_name='change_password_done.html'),
          name='password_change_done'),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
