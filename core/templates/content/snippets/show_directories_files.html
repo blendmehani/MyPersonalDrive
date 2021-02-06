@@ -12,7 +12,7 @@
 
                     <div class="col-md-3">
                         <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
-                            <div class="ml-4" data-toggle="tooltip" title="Directory">
+                            <div class="ml-4">
                                 {% if file.id|to_str in all_directories|to_str or file.id|to_str in all_files|to_str %}
                                     <a href="{% url 'nested' user.username file.dir_name %}"><img
                                             class="img-fluid picture"
@@ -35,7 +35,7 @@
                                 <input required type="text" name="d{{ file.id }}" value="{{ file.dir_name }}"
                                        maxlength="18" autocomplete="off"
                                        class="text-center name_input mt-1 mb-2">
-                                {% if  file.file_name|length >= 18 %}
+                                {% if  file.file_name|length > 18 %}
                                     ...
                                 {% endif %}
                             </div>
@@ -52,7 +52,8 @@
                                         src="../../../../static/images/image.png"
                                         width="120" alt="Image" style="height: 130px;"></a>
 
-                                <a class="nested_image_a" href="{{ file.file.url }}" style="display: none;"><img class="img-fluid picture"
+                                <a class="nested_image_a" href="{{ file.file.url }}" style="display: none;"><img
+                                        class="img-fluid picture"
                                         src="{{ file.file.url }}" id="nested_image"
                                         alt="Image"></a>
                             </div>
@@ -67,7 +68,7 @@
                                 <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
                                        maxlength="18" autocomplete="off"
                                        class="text-center name_input  mb-2">
-                                {% if  file.file_name|length >= 18 %}
+                                {% if  file.file_name|length > 18 %}
                                     ...
                                 {% endif %}
                             </div>
@@ -96,7 +97,7 @@
                                 <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
                                        maxlength="18" autocomplete="off"
                                        class="text-center name_input mb-2" style="">
-                                {% if  file.file_name|length >= 18 %}
+                                {% if  file.file_name|length > 18 %}
                                     ...
                                 {% endif %}
 
@@ -126,7 +127,7 @@
                                 <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
                                        maxlength="18" autocomplete="off"
                                        class="text-center name_input mb-2" style="">
-                                {% if  file.file_name|length >= 18 %}
+                                {% if  file.file_name|length > 18 %}
                                     ...
                                 {% endif %}
                             </div>
@@ -140,7 +141,7 @@
         </div>
 
         {% include 'content/snippets/move_to.html' %}
-
+        <input type="text" id="files_url" name="url" value="" hidden>
     </form>
 {% elif empty %}
     <div class="pt-3 text-center border col-md-6 mx-auto">
@@ -169,5 +170,7 @@
             $('#manage_files_form').attr('action', '{% url 'move_to' user.username %}').submit()
         });
     });
+
+    document.getElementById('files_url').value = document.location.href
 
 </script>

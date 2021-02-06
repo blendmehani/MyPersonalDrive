@@ -27,7 +27,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', main, name='main'),
-    path('file/<dir_name>/', nested, name='nested'),
+    path('file/<str:dir_name>/', nested, name='nested'),
     path('logout/', logout_view, name='logout'),
     path('settings/', user_settings, name='settings'),
     path('delete/', delete_user, name='delete_user'),
