@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.db.models.signals import pre_save, post_delete
 from django.dispatch import receiver
+import sys
+sys.setrecursionlimit(10000)
 
 
 class Directory(models.Model):
@@ -12,12 +14,27 @@ class Directory(models.Model):
     date_created = models.DateTimeField(verbose_name='Date Created', auto_now_add=True)
     date_updated = models.DateTimeField(verbose_name='Date Updated', auto_now=True)
     is_deleted = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = 'Directories'
 
     def __str__(self):
         return self.dir_name
+
+    def get_all_children(self, include_self=True):
+        result = []
+        if include_self:
+            result.append(self)
+        files = File.objects.filter(parent_dir_id=self)
+        for file in files:
+            result.append(file)
+        for c in Directory.objects.filter(parent_dir_id=self):
+            _result = c.get_all_children(include_self=True)
+
+            if 0 < len(_result):
+                result.extend(_result)
+        return result
 
 
 def upload_file_location(instance, filename):
@@ -36,6 +53,7 @@ class File(models.Model):
     date_created = models.DateTimeField(verbose_name='Date Created', auto_now_add=True)
     date_updated = models.DateTimeField(verbose_name='Date Updated', auto_now=True)
     is_deleted = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.file_name
@@ -53,6 +71,8 @@ def pre_save_files_receiver(sender, instance, *args, **kwargs):
         instance.type = 'pdf'
     elif file.endswith('.txt'):
         instance.type = 'txt'
+    elif file.endswith('.doc') or file.endswith('.docx'):
+        instance.type = 'word'
     else:
         instance.type = 'image'
 

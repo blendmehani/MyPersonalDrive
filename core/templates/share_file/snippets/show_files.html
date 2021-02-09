@@ -9,6 +9,7 @@
 </div>
 
 <form id="manage_shared_files_form" action="{% url 'unshare_selected' user.username %}" method="post">
+{% csrf_token %}
     <div id="shared_to_div">
         {% if shared_to %}
 

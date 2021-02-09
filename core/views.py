@@ -5,10 +5,12 @@ from .models import Directory, File, SharedFile
 from django.http import HttpResponse, JsonResponse, FileResponse
 from itertools import chain
 import os
-from django.db.models import OuterRef, Count, Q, Subquery
+from django.db.models import Q, Value, IntegerField
 from django.conf import settings
 from urllib import parse
-import re
+
+regex = "^[^\s/\:\"&<>|.]+(\s[^\s/\:\"&<>|.]+)*$"
+
 
 def main(request, username):
     user = request.user
@@ -16,8 +18,8 @@ def main(request, username):
     if not user.is_authenticated or not username == user.username:
         raise Http404
 
-    directories = Directory.objects.filter(parent_dir_id__isnull=True, user=user, is_deleted=False)
-    files = File.objects.filter(parent_dir_id__isnull=True, user=user, is_deleted=False)
+    directories = Directory.objects.filter(parent_dir_id__isnull=True, user=user, is_deleted=False, is_active=True)
+    files = File.objects.filter(parent_dir_id__isnull=True, user=user, is_deleted=False, is_active=True)
     directories_files = list(chain(directories, files))
     directories_files.sort(key=lambda x: x.date_created)
 
@@ -26,7 +28,8 @@ def main(request, username):
 
     if request.GET.get('file_name'):
         file_name = request.GET.get('file_name')
-        searched_files = File.objects.filter(user=user, file_name__icontains=file_name, is_deleted=False).order_by(
+        searched_files = File.objects.filter(user=user, file_name__icontains=file_name, is_deleted=False,
+                                             is_active=True).order_by(
             'date_created')
         directories_files = searched_files
         if not searched_files:
@@ -34,8 +37,8 @@ def main(request, username):
 
     context['files'] = directories_files
     context['user_url'] = request.build_absolute_uri()
-    context['all_directories'] = Directory.objects.filter(user=user, is_deleted=False).values('parent_dir_id')
-    context['directories'] = Directory.objects.filter(user=user, is_deleted=False).values('dir_name')
+    context['all_directories'] = Directory.objects.filter(user=user, is_deleted=False, is_active=True).values('parent_dir_id')
+    context['directories'] = Directory.objects.filter(user=user, is_deleted=False, is_active=True).values('dir_name')
     context['all_files'] = File.objects.filter(user=user).values('parent_dir_id')
 
     return render(request, 'content/main_logic.html', context)
@@ -46,27 +49,24 @@ def nested(request, dir_name, username):
     user = request.user
     if not user.is_authenticated or not username == user.username:
         raise Http404
-    url = request.build_absolute_uri()
-    print(url)
-    print(parse.unquote(url))
-    print(dir_name)
-    parent_id = get_object_or_404(Directory, dir_name=dir_name, user=user, is_deleted=False)
-    directories = Directory.objects.filter(parent_dir_id=parent_id.id, user=user, is_deleted=False)
-    files = File.objects.filter(parent_dir_id=parent_id, user=user, is_deleted=False)
+
+    parent_id = get_object_or_404(Directory, dir_name=dir_name, user=user, is_deleted=False, is_active=True)
+    directories = Directory.objects.filter(parent_dir_id=parent_id.id, user=user, is_deleted=False, is_active=True)
+    files = File.objects.filter(parent_dir_id=parent_id, user=user, is_deleted=False, is_active=True)
     directories_files = list(chain(directories, files))
     directories_files.sort(key=lambda x: x.date_created)
 
     if request.GET.get('file_name'):
         file_name = request.GET.get('file_name')
-        searched_files = File.objects.filter(user=user, file_name__icontains=file_name, is_deleted=False).order_by(
+        searched_files = File.objects.filter(user=user, file_name__icontains=file_name, is_deleted=False, is_active=True).order_by(
             'date_created')
         directories_files = searched_files
         if not searched_files:
             context['empty'] = f'There were no results matching your search: "{file_name}".'
 
     context['files'] = directories_files
-    context['directories'] = Directory.objects.filter(user=user, is_deleted=False).exclude(id=parent_id.id)
-    context['all_directories'] = Directory.objects.filter(user=user, is_deleted=False).values('parent_dir_id')
+    context['directories'] = Directory.objects.filter(user=user, is_deleted=False, is_active=True).exclude(id=parent_id.id)
+    context['all_directories'] = Directory.objects.filter(user=user, is_deleted=False, is_active=True).values('parent_dir_id')
     context['nested'] = '1'
 
     return render(request, 'content/main_logic.html', context)
@@ -153,7 +153,6 @@ def create_directory(request, username):
         else:
             dir_parent_id = None
 
-        regex = "^[^\s/\:\"'&<>|.]+(\s[^\s]+)*$"
         if re.match(regex, dir_name):
             static_dir_name = dir_name
             i = 1
@@ -200,7 +199,6 @@ def upload_file(request, username):
             if "'" in file_name:
                 file_name = file_name.replace("'", "")
 
-            regex = "^[^\s/\:\"&<>|.]+(\s[^\s]+)*$"
             if not re.match(regex, file_name):
                 file_name = 'Please Change File Name'
 
@@ -216,7 +214,7 @@ def upload_file(request, username):
             if 'file' in url:
                 url_list = url.split('/')
                 dir_parent = url_list[-2]
-                dir_parent_object = get_object_or_404(Directory, dir_name=dir_parent, user=user)
+                dir_parent_object = get_object_or_404(Directory, dir_name=dir_parent, user=user, is_deleted=False, is_active=True)
                 save_file.parent_dir_id = dir_parent_object
                 save_file.save()
                 return redirect('nested', username, dir_parent)
@@ -240,16 +238,15 @@ def change_name(request, username):
         raise Http404
 
     if request.POST:
-        directories = Directory.objects.filter(user=user, is_deleted=False)
-        files = File.objects.filter(user=user, is_deleted=False)
+        directories = Directory.objects.filter(user=user, is_deleted=False, is_active=True)
+        files = File.objects.filter(user=user, is_deleted=False, is_active=True)
 
         for directory in directories:
             posted_directory_name = request.POST.get('d' + str(directory.id))
-
+            print(posted_directory_name)
             if posted_directory_name:
 
                 if posted_directory_name != directory.dir_name:
-                    regex = "^[^\s/\:\"&<>|.]+(\s[^\s]+)*$"
                     if re.match(regex, posted_directory_name):
                         i = 1
                         while Directory.objects.filter(dir_name=posted_directory_name, user=user):
@@ -264,7 +261,6 @@ def change_name(request, username):
             if posted_file_name:
 
                 if posted_file_name != file.file_name:
-                    regex = "^[^\s/\:\"&<>|.]+(\s[^\s]+)*$"
                     if re.match(regex, posted_file_name):
                         i = 1
                         while File.objects.filter(file_name=posted_file_name, user=user):
@@ -273,7 +269,7 @@ def change_name(request, username):
                         file.file_name = posted_file_name
                         file.save()
 
-        url = request.POST.get('url')
+        url = parse.unquote(request.POST.get('url'))
         if 'file' in url:
             url_list = url.split('/')
             dir_parent = url_list[-2]
@@ -295,14 +291,19 @@ def delete_file(request, username):
             if request.POST.get('dc' + str(directory.id)):
                 if request.POST.get('dc' + str(directory.id)) == 'checked':
                     directory.is_deleted = True
+                    children = directory.get_all_children()
+                    for child in children:
+                        child.is_active = False
+                        child.save()
                     directory.save()
         for file in files:
             if request.POST.get('fc' + str(file.id)):
                 if request.POST.get('fc' + str(file.id)) == 'checked':
                     file.is_deleted = True
+                    file.is_active = False
                     file.save()
 
-        url = request.POST.get('url')
+        url = parse.unquote(request.POST.get('url'))
         if 'file' in url:
             url_list = url.split('/')
             dir_parent = url_list[-2]
@@ -310,6 +311,40 @@ def delete_file(request, username):
 
         return redirect('main', username)
     raise Http404
+
+
+def recycle_bin(request, username):
+    context = {}
+    user = request.user
+    if not user.is_authenticated or not username == user.username:
+        raise Http404
+
+    directories = Directory.objects.filter(user=user, is_deleted=True)
+    files = File.objects.filter(user=user, is_deleted=True)
+    directories = directories.annotate(count_files=Value(0, IntegerField()))
+    directories = directories.annotate(count_directories=Value(0, IntegerField()))
+
+    for directory in directories:
+        children = directory.get_all_children()
+        directories_num = 0
+        files_num = 0
+        for child in children:
+            if child.type == 'directory':
+                directories_num += 1
+            else:
+                files_num += 1
+        directory.count_directories = directories_num - 1
+        directory.count_files = files_num
+
+    directories_files = list(chain(directories, files))
+    directories_files.sort(key=lambda x: x.date_updated)
+    all_directories = Directory.objects.filter(user=user, is_deleted=True).count()
+    all_files = File.objects.filter(user=user, is_deleted=True).count()
+
+    context['all_deleted_directories'] = all_directories
+    context['all_deleted_files'] = all_files
+    context['files'] = directories_files
+    return render(request, 'recycle_bin/recycle_bin.html', context)
 
 
 def empty_recycle_bin(request, username):
@@ -323,63 +358,54 @@ def empty_recycle_bin(request, username):
     return redirect('recycle_bin', username)
 
 
-def recycle_bin(request, username):
-    context = {}
-    user = request.user
-    if not user.is_authenticated or not username == user.username:
-        raise Http404
-
-    directories = Directory.objects.filter(user=user, is_deleted=True)
-    files = File.objects.filter(user=user, is_deleted=True)
-
-    directories = directories.annotate(count_files=Count('file'))
-    directories = directories.annotate(count_directories=Count('directory'))
-    directories_files = list(chain(directories, files))
-    directories_files.sort(key=lambda x: x.date_updated)
-    all_directories = Directory.objects.filter(user=user, is_deleted=True).count()
-    all_files = File.objects.filter(user=user, is_deleted=True).count()
-    context['all_deleted_directories'] = all_directories
-    context['all_deleted_files'] = all_files
-    context['files'] = directories_files
-    return render(request, 'recycle_bin/recycle_bin.html', context)
-
-
 def restore_all(request, username):
     user = request.user
     if not user.is_authenticated or user.username != username:
         raise Http404
 
-    Directory.objects.filter(user=user, is_deleted=True).update(is_deleted=False)
-    File.objects.filter(user=user, is_deleted=True).update(is_deleted=False)
+    Directory.objects.filter(Q(user=user) & (Q(is_deleted=True) | Q(is_active=False))).update(is_deleted=False,
+                                                                                              is_active=True)
+
+    File.objects.filter(Q(user=user) & (Q(is_deleted=True) | Q(is_active=False))).update(is_deleted=False,
+                                                                                         is_active=True)
 
     return redirect('recycle_bin', username)
 
 
 def restore_selected(request, username):
     user = request.user
+    if not user.is_authenticated or user.username != username:
+        raise Http404
+
     if request.POST:
-        print(request.POST)
-        directories = Directory.objects.filter(user=user)
-        files = File.objects.filter(user=user)
+        directories = Directory.objects.filter(user=user, is_deleted=True)
+        files = File.objects.filter(user=user, is_deleted=True)
         for directory in directories:
             if request.POST.get('dc' + str(directory.id)):
                 if request.POST.get('dc' + str(directory.id)) == 'checked':
                     directory.is_deleted = False
+                    children = directory.get_all_children()
+                    for child in children:
+                        child.is_active = True
+                        child.save()
                     directory.save()
         for file in files:
             if request.POST.get('fc' + str(file.id)):
                 if request.POST.get('fc' + str(file.id)) == 'checked':
                     file.is_deleted = False
+                    file.is_active = True
                     file.save()
     return redirect('recycle_bin', username)
 
 
 def permanently_delete_selected(request, username):
     user = request.user
+    if not user.is_authenticated or user.username != username:
+        raise Http404
+
     if request.POST:
-        print(request.POST)
-        directories = Directory.objects.filter(user=user)
-        files = File.objects.filter(user=user)
+        directories = Directory.objects.filter(user=user, is_deleted=True)
+        files = File.objects.filter(user=user, is_deleted=True)
         for directory in directories:
             if request.POST.get('dc' + str(directory.id)):
                 if request.POST.get('dc' + str(directory.id)) == 'checked':
@@ -392,17 +418,18 @@ def permanently_delete_selected(request, username):
 
 
 def share_file(request, username):
-    response_data = {}
+    context = {}
     user = request.user
-    files = File.objects.filter(user=user, is_deleted=False)
+    if not user.is_authenticated or user.username != username:
+        raise Http404
 
     if request.is_ajax and request.POST:
         file_name = request.POST['file_name']
         share_with = request.POST['share_with']
         shared_from = user
 
-        if File.objects.filter(user=user, is_deleted=False, file_name=file_name):
-            file = File.objects.get(user=user, is_deleted=False, file_name=file_name)
+        if File.objects.filter(user=user, is_deleted=False, is_active=True, file_name=file_name):
+            file = File.objects.get(user=user, is_deleted=False, is_active=True, file_name=file_name)
 
             if User.objects.filter(email=share_with):
                 if not user.email == share_with:
@@ -413,44 +440,44 @@ def share_file(request, username):
                             shared_from=shared_from,
                             shared_to=shared_to
                         )
-                        response_data['title'] = 'Congratulations!'
-                        response_data['is_success'] = True
-                        response_data['message'] = f'File "{file_name}" has been shared with "{share_with}"'
+                        context['title'] = 'Congratulations!'
+                        context['is_success'] = True
+                        context['message'] = f'File "{file_name}" has been shared with "{share_with}"'
                     else:
-                        response_data['title'] = 'We are sorry!'
-                        response_data['is_success'] = False
-                        response_data['message'] = f'File "{file_name}" has already been shared with "{share_with}".'
+                        context['title'] = 'We are sorry!'
+                        context['is_success'] = False
+                        context['message'] = f'File "{file_name}" has already been shared with "{share_with}".'
                 else:
-                    print(User.objects.filter(email=user.email))
-                    response_data['title'] = 'We are sorry!'
-                    response_data['is_success'] = False
-                    response_data['message'] = f'File "{file_name}" can not be shared with yourself.'
+                    context['title'] = 'We are sorry!'
+                    context['is_success'] = False
+                    context['message'] = f'File "{file_name}" can not be shared with yourself.'
             else:
-                response_data['title'] = 'We are sorry!'
-                response_data['is_success'] = False
-                response_data['message'] = f'User "{share_with}" does not exist.'
+                context['title'] = 'We are sorry!'
+                context['is_success'] = False
+                context['message'] = f'User "{share_with}" does not exist.'
 
         else:
-            response_data['title'] = 'We are sorry!'
-            response_data['is_success'] = False
-            response_data['message'] = f'File "{file_name}" does not exist.'
-        return JsonResponse(response_data)
+            context['title'] = 'We are sorry!'
+            context['is_success'] = False
+            context['message'] = f'File "{file_name}" does not exist.'
+        return JsonResponse(context)
 
 
 def shared_files(request, username):
     context = {}
     user = request.user
+    if not user.is_authenticated or user.username != username:
+        raise Http404
+
     shared_to = SharedFile.objects.filter(shared_to=user).order_by('date_created')
     shared_from = SharedFile.objects.filter(shared_from=user).order_by('date_created')
 
     if request.GET.get('file_name'):
         file_name = request.GET.get('file_name')
         searched_files_to = SharedFile.objects.filter(shared_to=user,
-                                                      shared_file__file_name__icontains=file_name).order_by(
-            'date_created')
+                                                      shared_file__file_name__icontains=file_name).order_by('date_created')
         searched_files_from = SharedFile.objects.filter(shared_from=user,
-                                                        shared_file__file_name__icontains=file_name).order_by(
-            'date_created')
+                                                        shared_file__file_name__icontains=file_name).order_by('date_created')
         shared_to = searched_files_to
         shared_from = searched_files_from
         if not searched_files_to:
@@ -465,51 +492,75 @@ def shared_files(request, username):
 
 def move_to(request, username):
     user = request.user
+    if not user.is_authenticated or user.username != username:
+        raise Http404
 
     if request.POST:
-        print(request.POST)
-        directories = Directory.objects.filter(user=user, is_deleted=False)
-        files = File.objects.filter(user=user, is_deleted=False)
+        directories = Directory.objects.filter(user=user, is_deleted=False, is_active=True)
+        files = File.objects.filter(user=user, is_deleted=False, is_active=True)
         parent_dir = request.POST.get('move_to_select')
         if parent_dir == '!none':
             parent_dir = None
         else:
-            parent_dir = Directory.objects.get(user=user, is_deleted=False, dir_name=parent_dir)
+            parent_dir = Directory.objects.get(user=user, dir_name=parent_dir)
 
         for directory in directories:
             if request.POST.get('dc' + str(directory.id)):
+
                 if request.POST.get('dc' + str(directory.id)) == 'checked':
-                    if not request.POST.get('move_to_select') == directory.dir_name:
-                        print(request.POST.get('move_to_select'))
-                        print(directory.dir_name)
+                    children = directory.get_all_children()
+                    children_list = []
+                    for child in children:
+                        if child.type == 'directory':
+                            children_list.append(child.dir_name)
+
+                    if request.POST.get('move_to_select') not in children_list:
                         directory.parent_dir_id = parent_dir
                         directory.save()
+
         for file in files:
             if request.POST.get('fc' + str(file.id)):
+
                 if request.POST.get('fc' + str(file.id)) == 'checked':
                     file.parent_dir_id = parent_dir
                     file.save()
+
+        url = parse.unquote(request.POST.get('url'))
+        if 'file' in url:
+            url_list = url.split('/')
+            dir_parent = url_list[-2]
+            return redirect('nested', username, dir_parent)
+
     return redirect('main', username)
 
 
 def unshare_selected(request, username):
     user = request.user
+    if not user.is_authenticated or user.username != username:
+        raise Http404
+
     if request.POST:
         shared_to = SharedFile.objects.filter(shared_to=user)
         shared_from = SharedFile.objects.filter(shared_from=user)
         for file in shared_to:
             if request.POST.get('tfc' + str(file.id)):
+
                 if request.POST.get('tfc' + str(file.id)) == 'checked':
                     file.delete()
+
         for file in shared_from:
             if request.POST.get('ffc' + str(file.id)):
+
                 if request.POST.get('ffc' + str(file.id)) == 'checked':
                     file.delete()
+
     return redirect('shared_files', username)
 
 
 def unshare_to(request, username):
     user = request.user
+    if not user.is_authenticated or user.username != username:
+        raise Http404
 
     SharedFile.objects.filter(shared_to=user).delete()
 
@@ -518,6 +569,8 @@ def unshare_to(request, username):
 
 def unshare_from(request, username):
     user = request.user
+    if not user.is_authenticated or user.username != username:
+        raise Http404
 
     SharedFile.objects.filter(shared_from=user).delete()
 
@@ -526,6 +579,8 @@ def unshare_from(request, username):
 
 def unshare_all(request, username):
     user = request.user
+    if not user.is_authenticated or user.username != username:
+        raise Http404
 
     SharedFile.objects.filter(shared_to=user).delete()
     SharedFile.objects.filter(shared_from=user).delete()
@@ -538,7 +593,7 @@ def download(request, file_path):
     if not user.is_authenticated:
         raise Http404
 
-    file = get_object_or_404(File, file=file_path)
+    file = get_object_or_404(File, file=file_path, is_deleted=False, is_active=True)
     shared_to = SharedFile.objects.filter(shared_file=file, shared_to=user)
 
     if file.user != request.user and not shared_to:
@@ -550,15 +605,21 @@ def download(request, file_path):
 
 
 def view(request, file_path):
+    context = {}
     user = request.user
     if not user.is_authenticated:
         raise Http404
 
-    file = get_object_or_404(File, file=file_path)
+    file = get_object_or_404(File, file=file_path, is_deleted=False, is_active=True)
     shared_to = SharedFile.objects.filter(shared_file=file, shared_to=user)
 
     if file.user != request.user and not shared_to:
         raise Http404
+
+    if file.type == 'word':
+        context['file'] = file
+        context['absolute_path'] = '{}/{}'.format(settings.MEDIA_ROOT, file_path)
+        return render(request, 'content/snippets/word.html', context)
 
     absolute_path = '{}/{}'.format(settings.MEDIA_ROOT, file_path)
     response = FileResponse(open(absolute_path, 'rb'))

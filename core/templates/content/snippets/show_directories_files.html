@@ -105,6 +105,36 @@
                         </div>
                     </div>
 
+                {% elif file.type == 'word' %}
+
+                    <div class="col-md-3">
+                        <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
+                            <div class="ml-n3 mt-2">
+                                <a href="{{ file.file.url }}"><img class="img-fluid picture"
+                                                                   src="../../../../static/images/txt.png"
+                                                                   width="120" alt="Txt"
+                                                                   style="width: 100px; height: 110px"></a>
+                            </div>
+                            <div class="service-body">
+
+                                <label class="container_checkbox">
+                                    <a href="../download{{ file.file.url }}" class="download-icon"><i
+                                            class="fas fa-cloud-download-alt"></i></a>
+                                    <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+
+                                <input required type="text" name="f{{ file.id }}" value="{{ file.file_name }}"
+                                       maxlength="18" autocomplete="off"
+                                       class="text-center name_input mb-2" style="">
+                                {% if  file.file_name|length > 18 %}
+                                    ...
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
                 {% else %}
 
                     <div class="col-md-3">
