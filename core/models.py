@@ -71,8 +71,10 @@ def pre_save_files_receiver(sender, instance, *args, **kwargs):
         instance.type = 'pdf'
     elif file.endswith('.txt'):
         instance.type = 'txt'
-    elif file.endswith('.doc') or file.endswith('.docx'):
+    elif file.endswith(('.doc', '.docx')):
         instance.type = 'word'
+    elif file.endswith(('xlsx', '.xlsm', '.xlsb', '.xltx', '.xltm', '.xls', '.xlt', '.xls', 'csv')):
+        instance.type = 'excel'
     else:
         instance.type = 'image'
 

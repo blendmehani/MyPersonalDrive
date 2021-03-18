@@ -77,8 +77,8 @@ MATERIAL_ADMIN_SITE = {
     'TRAY_REVERSE': False,
     'NAVBAR_REVERSE': False,
     'SHOW_COUNTS': True,
-    'APP_ICONS': {'accounts': 'account_box', 'sites': 'send', },
-    'MODEL_ICONS': {'site': 'contact_mail', }
+    'APP_ICONS': {'accounts': 'account_box', 'core': 'dns', 'dashboard': 'dashboard'},
+    'MODEL_ICONS': {'requests': 'get_app', 'directory': 'folder', 'file': 'description', 'sharedfile': 'offline_share'}
 }
 
 TEMPLATES = [

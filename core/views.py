@@ -8,7 +8,7 @@ import os
 from django.db.models import Q, Value, IntegerField
 from django.conf import settings
 from urllib import parse
-
+import re
 regex = "^[^\s/\:\"&<>|.]+(\s[^\s/\:\"&<>|.]+)*$"
 
 
@@ -173,7 +173,7 @@ def create_directory(request, username):
             context['is_success'] = False
             context['title'] = 'We are sorry!'
             context['message'] = f'Directory " {dir_name} " has not been created. ' \
-                                 f'Please use a correct and unique name.'
+                                 f'Please use a correct name.'
 
         return JsonResponse(context)
     raise Http404
@@ -243,7 +243,6 @@ def change_name(request, username):
 
         for directory in directories:
             posted_directory_name = request.POST.get('d' + str(directory.id))
-            print(posted_directory_name)
             if posted_directory_name:
 
                 if posted_directory_name != directory.dir_name:
@@ -605,7 +604,6 @@ def download(request, file_path):
 
 
 def view(request, file_path):
-    context = {}
     user = request.user
     if not user.is_authenticated:
         raise Http404
@@ -615,11 +613,6 @@ def view(request, file_path):
 
     if file.user != request.user and not shared_to:
         raise Http404
-
-    if file.type == 'word':
-        context['file'] = file
-        context['absolute_path'] = '{}/{}'.format(settings.MEDIA_ROOT, file_path)
-        return render(request, 'content/snippets/word.html', context)
 
     absolute_path = '{}/{}'.format(settings.MEDIA_ROOT, file_path)
     response = FileResponse(open(absolute_path, 'rb'))
