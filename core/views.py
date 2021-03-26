@@ -426,9 +426,12 @@ def share_file(request, username):
         file_name = request.POST['file_name']
         share_with = request.POST['share_with']
         shared_from = user
+        file_array = file_name.split('.')
+        file_name = file_array[0]
+        file_type = file_array[1]
 
-        if File.objects.filter(user=user, is_deleted=False, is_active=True, file_name=file_name):
-            file = File.objects.get(user=user, is_deleted=False, is_active=True, file_name=file_name)
+        if File.objects.filter(user=user, is_deleted=False, is_active=True, file_name=file_name, type=file_type):
+            file = File.objects.get(user=user, is_deleted=False, is_active=True, file_name=file_name, type=file_type)
 
             if User.objects.filter(email=share_with):
                 if not user.email == share_with:

@@ -184,6 +184,53 @@
                             </div>
                         </div>
 
+                {% elif  file.shared_file.type == 'excel' %}
+                        <div class="col-md-3" title="To: {{ file.shared_to }}">
+                            <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
+                                <div class="ml-n3 mt-2">
+                                    <a href="{{ file.shared_file.file.url }}"><img class="img-fluid picture"
+                                                                                   src="../../../../static/images/excel.png"
+                                                                                   width="120" alt="Pdf"
+                                                                                   style="width: 100px; height: 110px"></a>
+                                </div>
+                                <div class="service-body">
+
+                                    <label class="container_checkbox">
+                                        <a href="{{ file.shared_file.file.url }}" download="{{ file.shared_file }}"
+                                           class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                        <input type="checkbox" name="ffc{{ file.id }}" value="checked" class="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+
+                                    <p class="ml-n3">{{ file.shared_file }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% elif  file.shared_file.type == 'word' %}
+
+                        <div class="col-md-3" title="To: {{ file.shared_to }}">
+                            <div class="m-3 px-3 pt-3 rounded text-center service directory-bg">
+                                <div class="ml-n3 mt-2">
+                                    <a href="{{ file.shared_file.file.url }}"><img class="img-fluid picture"
+                                                                                   src="../../../../static/images/word.png"
+                                                                                   width="120" alt="Pdf"
+                                                                                   style="width: 100px; height: 110px"></a>
+                                </div>
+                                <div class="service-body">
+
+                                    <label class="container_checkbox">
+                                        <a href="{{ file.shared_file.file.url }}" download="{{ file.shared_file }}"
+                                           class="download-icon"><i class="fas fa-cloud-download-alt"></i></a>
+                                        <input type="checkbox" name="ffc{{ file.id }}" value="checked" class="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+
+                                    <p class="ml-n3">{{ file.shared_file }}</p>
+                                </div>
+                            </div>
+                        </div>
+
                     {% else %}
 
                         <div class="col-md-3" title="To: {{ file.shared_to }}">

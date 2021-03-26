@@ -73,7 +73,43 @@
                         {% endif %}
                     </script>
 
-                {% elif file.type == 'image' %}
+                {% elif file.type == 'excel' %}
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label class="container_checkbox ml-2 mt-4">
+                                <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
+                                <span class="checkmark" style="margin-top: 15px;"></span>
+                            </label>
+                            <img class=" mt-n1" style="margin-left: 44px;" width="30" height="30"
+                                 src="{% static 'images/excel.png' %}" alt="">
+                        </td>
+                        <td>{{ file.file_name }}</td>
+                        <td>{{ file.type }}</td>
+                        <td class="fs{{ file.id }}"></td>
+                        <td>-</td>
+                        <td>{{ file.date_updated }}</td>
+                    </tr>
+
+                                    {% elif file.type == 'word' %}
+                    <tr>
+                        <td></td>
+                        <td>
+                            <label class="container_checkbox ml-2 mt-4">
+                                <input type="checkbox" name="fc{{ file.id }}" value="checked" class="checkbox">
+                                <span class="checkmark" style="margin-top: 15px;"></span>
+                            </label>
+                            <img class=" mt-n1" style="margin-left: 44px;" width="30" height="30"
+                                 src="{% static 'images/word.png' %}" alt="">
+                        </td>
+                        <td>{{ file.file_name }}</td>
+                        <td>{{ file.type }}</td>
+                        <td class="fs{{ file.id }}"></td>
+                        <td>-</td>
+                        <td>{{ file.date_updated }}</td>
+                    </tr>
+
+                                {% elif file.type == 'image' %}
                     <tr>
                         <td></td>
                         <td>
