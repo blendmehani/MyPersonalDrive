@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from core.models import Directory, File
 import datetime
 
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
